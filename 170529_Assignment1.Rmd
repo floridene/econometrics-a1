@@ -1,0 +1,59 @@
+---
+title: "Assignment 1"
+author: "Vera Weidmann, Marvin König, Sebastian Seck"
+date: "5/22/2017"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    toc_depth: 4
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+setwd("~/Documents/C Education/3 HWR/2. Semester SS2017/ECO")
+```
+
+```{r Initialization}
+library(foreign) #to read in the .dta format
+library(stargazer) #used in 1(c)-ii
+hprice <- read.dta("data/hprice1.dta")
+```
+
+#### 1(a)
+```{r 1a}
+names(hprice)
+summary(hprice[,c("price","bdrms","lotsize")])
+```
+The sample mean of price is 293.5. The summary statistics fan be found above.
+
+#### 1(b)
+```{r 1b}
+mod1b <- lm(lprice ~ bdrms + llotsize, data=hprice)
+summary(mod1b)
+```
+The summary provides us with an R-Squared of 40.13% - this means that 40% of deviation in price can be explained by the predictors chosen. We are also provided with an adjusted R-squared, which is adjusted not to consider the count of variables used for the model.
+n can be derived from the degrees of freedom: $DF = n-k-1 \Leftrightarrow 85 = 88-2-1$ From this formula we can easily deduct the number of observations n, which is 88.
+
+If we consider that bdrms and lotsize is equal to 0, the price is the value of the intercept: 2.95. If bdrms is increasing by one extra room while the other predictor lotsize is held fixed, the price increases by 0.14. For one increase in log(lotsize) the price rise by 0.24449.
+
+Furthermore, both coefficients are significant. The p-vales of both coefficients are one indicator for the significance. As they are lower than ALPHA = 5% (and ALPHA =1%), we can reject that both predictors has no effect on the response price (H0: BETA1 = 0, BETA 2 = 0) in a two-sided test.
+Likewise we could look at the T-values for signifcance. In R the significance codes give also a clarification about the coef. significance.
+
+#### 1(c) - i
+```{r 1ci}
+#1(c) - i
+hprice$sqllotsize <- hprice$llotsize^2 #to account for the additional variable, we simply create another column
+mod1c <- lm(lprice ~ bdrms  + llotsize + sqllotsize, data = hprice)
+summary(mod1c)
+```
+#### 1(c) - ii
+```{r 1cii, results="asis"}
+stargazer(mod1b,mod1c, title = "Comparison of models mod1b and mod1c", type="html", model.names = FALSE,column.labels = c("mod1b", "mod1c"), column.separate = c(1,1), style = "qje")
+```
+
+The first derivative of $log(price)=\beta_0+\beta_1bdrms+\beta_2log(lotsize)+\beta_3[log(lotsize)]^2+u$:  
+
+$\frac{\delta log(price)}{\delta log(lotsize)}=\beta_2+2\beta_3log(lotsize)$
+
+In model "mod1c" we add the squared value of llotsize. As it is shown in the derivation above, the effect from lotsize by one unit depends on how many units of lotsize is already there. So if... EXAMPLE!!!
