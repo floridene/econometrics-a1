@@ -57,3 +57,5 @@ The first derivative of $log(price)=\beta_0+\beta_1bdrms+\beta_2log(lotsize)+\be
 $\frac{\delta log(price)}{\delta log(lotsize)}=\beta_2+2\beta_3log(lotsize)$
 
 In model "mod1c" we add the squared value of llotsize. As it is shown in the derivation above, the effect from lotsize by one unit depends on how many units of lotsize is already there. So if... EXAMPLE!!!
+
+:) 
