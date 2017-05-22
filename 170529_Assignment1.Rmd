@@ -78,4 +78,40 @@ $SE_{\beta_1}=\sqrt{\frac{\sigma^2}{SST_1(1-R^2_1)}} = \sqrt{\frac{0.23^2}{61.59
 ```{r 2a}
 mod2a <- lm(lwage ~ educ + exper + tenure + married + black + south + urban, data = wage2)
 summary(mod2a)
+
+wage2$nonblack <- 1 - wage2$black
+
+#90% Confidence Interval (alpha = 0.05 two-sided)
+x = mod2a$coefficients["black"]
+SE = sqrt(diag(vcov(mod2a)))["black"]
+CI1= x - SE * 1.64
+CI2 = x + SE * 1.64
+(salary_black <-cbind(CI1, CI2))
+```
+The salary difference can be found from the coefficient $\beta_5$ in model mod2a, it is -0.1884. As the CI is not included in R's standard model output, we calculated it manually.
+
+```{r 2b}
+#Creating the additional variables
+wage2$exper_sq <- wage2$exper^2
+wage2$tenure_sq <- wage2$tenure^2
+
+mod2b <- lm(lwage ~ educ + exper + tenure + married + black + south + urban + exper_sq + tenure_sq, data = wage2)
+summary(mod2b)
+
+#Calculating the residual sum of squares for both models
+SSRr <- sum(mod2a$residuals^2)
+SSRur <- sum(mod2b$residuals^2)
+```
+Our null hypothesis is that both additional variables have no explanatory power. 
+$H_0: \beta_8=0; \beta_9=0$
+
+To calculate the F-statistic, we use the following formula:
+$F = \frac{(SSR_r - SSR_{ur}) / q}{SSR_{ur} / (n - k - 1)}$
+
+Substituted with our values:
+$F = \frac{(123.8185 - 123.421) / 2}{123.421 / (935 - 9 - 1)} = 1.489566$
+
+Double-check:
+```{r}
+((123.8185 - 123.421) / 2)/(123.421 / (935 - 9 - 1))
 ```
