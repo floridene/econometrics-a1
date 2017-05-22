@@ -25,20 +25,24 @@ hprice <- read.dta("/Users/seppBookRetina/OneDrive/Dokumente/ECO/data/hprice1.dt
 names(hprice)
 summary(hprice[,c("price","bdrms","lotsize")])
 ```
-The sample mean of price is 293.5. The summary statistics fan be found above.
+The sample mean of price is 293.5. The summary statistics can be found above.
 
 #### 1(b)
 ```{r 1b}
 mod1b <- lm(lprice ~ bdrms + llotsize, data=hprice)
 summary(mod1b)
 ```
-The summary provides us with an R-Squared of 40.13% - this means that 40% of deviation in price can be explained by the predictors chosen. We are also provided with an adjusted R-squared, which is adjusted not to consider the count of variables used for the model.
+The summary provides us with an R-Squared of 40.13% - this means that 40% of deviation in (log-) price can be explained by the predictors chosen. We are also provided with an adjusted R-squared, which is adjusted not to consider the count of variables used for the model.
 n can be derived from the degrees of freedom: $DF = n-k-1 \Leftrightarrow 85 = 88-2-1$ From this formula we can easily deduct the number of observations n, which is 88.
 
-If we consider that bdrms and lotsize is equal to 0, the price is the value of the intercept: 2.95. If bdrms is increasing by one extra room while the other predictor lotsize is held fixed, the price increases by 0.14. For one increase in log(lotsize) the price rise by 0.24449.
+If we consider that bdrms and lotsize is equal to 0, the price is the value of the intercept: 2.95. The model isa log-level-model. This means, an increase of one predictor by holding the others fixed leads to an percentage increase of the response varible (log-price).
+So, if bdrms is increasing by one extra room while the other predictor lotsize is held fixed, the price increases by 14%. For one increase in log(lotsize) the price rise by 24.4%.
 
-Furthermore, both coefficients are significant. The p-vales of both coefficients are one indicator for the significance. As they are lower than ALPHA = 5% (and ALPHA =1%), we can reject that both predictors has no effect on the response price (H0: BETA1 = 0, BETA 2 = 0) in a two-sided test.
-Likewise we could look at the T-values for signifcance. In R the significance codes give also a clarification about the coef. significance.
+$\frac{\delta log(price)}{\delta bdrms}=\beta_1$
+$\frac{\delta log(price)}{\delta log(lotsize)}=\beta_2$
+
+Furthermore, both coefficients are significant. The p-vales of both coefficients are one indicator for the significance. As they are lower than $\alpha = 5%$ (and $\alpha = 1%$), we can reject that both predictors has no effect on the response price (H0: $\beta_1 = 0, \beta_2  =0$) in a two-sided test.
+Likewise we could look at the t-values for signifcance. In R the significance codes give also a clarification about the coef. significance.
 
 #### 1(c) - i
 ```{r 1ci}
