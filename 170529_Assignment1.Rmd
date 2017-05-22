@@ -14,12 +14,14 @@ knitr::opts_chunk$set(echo = TRUE)
 setwd("~/Documents/C Education/3 HWR/2. Semester SS2017/ECO")
 ```
 
-```{r Initialization}
+```{r Initialization, warning=FALSE}
 library(foreign) #to read in the .dta format
 library(stargazer) #used in 1(c)-ii
 hprice <- read.dta("/Users/seppBookRetina/OneDrive/Dokumente/ECO/data/hprice1.dta")
+wage2 <- read.dta("/Users/seppBookRetina/OneDrive/Dokumente/ECO/data/WAGE2.DTA")
 ```
 
+##Task 1
 #### 1(a)
 ```{r 1a}
 names(hprice)
@@ -59,12 +61,17 @@ $\frac{\delta log(price)}{\delta log(lotsize)}=\beta_2+2\beta_3log(lotsize)$
 In model "mod1c" we add the squared value of llotsize. As it is shown in the derivation above, the effect from lotsize by one unit depends on how many units of lotsize is already there. So if... EXAMPLE!!!
 
 #### 1(e)
-In order to calculate the standard error of llotsize we calculate:
+At first we look at the variance of the error term of model 2, for which we square the Root MSE. In order to calculate the standard error of llotsize and bdrms we are using the SST and R-squared from the respective model outputs, where the variables are the dependent variable. We take the square root in order to arrive at the standard error instead of the variance.
+
+In detail, this is how $SE_{\beta_2}$ (llotsize) is calculated:  
 $SE_{\beta_2}=\sqrt{\frac{\sigma^2}{SST_2(1-R^2_2)}} = \sqrt{\frac{0.23^2}{25.75*(1-0.9939)}}=0.604$
 
-In order to calculate the standard error of llotsize we calculate:
+In detail, this is how $SE_{\beta_1}$ (bdrms) is calculated:  
 $SE_{\beta_1}=\sqrt{\frac{\sigma^2}{SST_1(1-R^2_1)}} = \sqrt{\frac{0.23^2}{61.59*(1-0.0289)}}=0.0308$
 
-```{r 1e}
-#summary(lm(lprice ~ bdrms+llotsize+sqllotsize, data = hprice))
+##Task 2
+####2(a)
+```{r 2a}
+mod2a <- lm(lwage ~ educ + exper + tenure + married + black + south + urban, data = wage2)
+summary(mod2a)
 ```
