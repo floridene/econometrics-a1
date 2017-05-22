@@ -17,7 +17,7 @@ setwd("~/Documents/C Education/3 HWR/2. Semester SS2017/ECO")
 ```{r Initialization}
 library(foreign) #to read in the .dta format
 library(stargazer) #used in 1(c)-ii
-hprice <- read.dta("data/hprice1.dta")
+hprice <- read.dta("/Users/seppBookRetina/OneDrive/Dokumente/ECO/data/hprice1.dta")
 ```
 
 #### 1(a)
@@ -58,4 +58,13 @@ $\frac{\delta log(price)}{\delta log(lotsize)}=\beta_2+2\beta_3log(lotsize)$
 
 In model "mod1c" we add the squared value of llotsize. As it is shown in the derivation above, the effect from lotsize by one unit depends on how many units of lotsize is already there. So if... EXAMPLE!!!
 
-:) 
+#### 1(e)
+In order to calculate the standard error of llotsize we calculate:
+$SE_{\beta_2}=\sqrt{\frac{\sigma^2}{SST_2(1-R^2_2)}} = \sqrt{\frac{0.23^2}{25.75*(1-0.9939)}}=0.604$
+
+In order to calculate the standard error of llotsize we calculate:
+$SE_{\beta_1}=\sqrt{\frac{\sigma^2}{SST_1(1-R^2_1)}} = \sqrt{\frac{0.23^2}{61.59*(1-0.0289)}}=0.0308$
+
+```{r 1e}
+#summary(lm(lprice ~ bdrms+llotsize+sqllotsize, data = hprice))
+```
