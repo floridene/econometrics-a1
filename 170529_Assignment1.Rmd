@@ -90,6 +90,7 @@ CI2 = x + SE * 1.64
 ```
 The salary difference can be found from the coefficient $\beta_5$ in model mod2a, it is -0.1884. As the CI is not included in R's standard model output, we calculated it manually.
 
+####2(b)
 ```{r 2b}
 #Creating the additional variables
 wage2$exper_sq <- wage2$exper^2
@@ -105,19 +106,25 @@ SSRur <- sum(mod2b$residuals^2)
 SSRr
 SSRur
 ```
-Our null hypothesis is that both additional variables have no explanatory power. 
+
+Our null hypothesis is that both additional variables have no explanatory power. So, model 2a (the smaller one) would be better than model 2b. 
+
 $H_0: \beta_8=0; \beta_9=0$
 $H_1: \beta_8>0; \beta_9>0$
 
 Dicision Rule:
-Reject H0 if $f > 1.114$ ($\alpha = 0.05$) -> Nochmal nachschauen!!!
-```{r}
-qf(0.95, df1=925, df2=927) #Wrong, Vera checks!!!
-```
+Reject H0 if $F > 1.89$ ($\alpha = 0.05$, one sided test) 
 
+In R we also can calculate the critical value instead of using the table of the F-distributions:
+```{r}
+#(1-/alpha, k, n-k-1)
+qf(0.95, 9, 925)
+```
 
 To calculate the F-statistic, we use the following formula:
 $F = \frac{(SSR_r - SSR_{ur}) / q}{SSR_{ur} / (n - k - 1)}$
+
+In this case the restricted model is 2a and the unrestricted one is model 2b. 
 
 ```{r}
 q = 2
@@ -130,44 +137,63 @@ k= 9
 Substituted with our values:
 $F = \frac{(123.8185 - 123.421) / 2}{123.421 / (935 - 9 - 1)} = 1.489806$
 
-We reject our H0, because f > 1.114 and lies outside of the 95% Interval. This means $\beta8$ and $\beta9$ do provide additional explanation power. 
+We cannot reject our H0, because F < 1.89 and lies inside the 95% Interval. This means $\beta8$ and $\beta9$ do not provide additional explanation power.
+This is also seen in the output of model 2b. The p-values of these both coefficients are greater than $\alpha = 0.05$. So, exper_sq and tenure_sq might not be signifcant for our model.
+
+-> beta9 ist gerade noch so significant bei onesided test 5% = 0.09/2
+
+Furthermore, we can calcualte the Anova of these both models. The result underlines the previous expanation of the non-rejection of H0.
 
 ```{r}
 anova(mod2a,mod2b)
 ```
 
-
-2c)
+####2(c)
 ```{r 2c}
 mod2c <- lm(lwage ~ educ*black + exper + tenure + married + south + urban, data = wage2)
 summary(mod2c)
-````
+```
+
+Our null hypothesis is that the interaction term between education and black has no effect on the model response. 
 
 $H0: \beta8 =0$
-$H1: \beta8 != 0$ # sebastian fix!!! :) oder nur kleiner?
+$H1: \beta8 != 0$ # sebastian, please fix unequal sign!!! :) 
 
-Decision Rule: Reject H0 if |t| > 1.64   ($\alpha = 0.1 $)
+Decision Rule: Reject H0 if |t| > 1.64   ($\alpha = 0.1 $, two sided test)
 
-As t(educ:black) is |-1.121| < 1.64, we can not reject H0.
+As t(educ:black) is |-1.121| < 1.64 (as well as: p-value of 26% > 10%), we cannot reject H0. The interaction term between education and black might not have an effect on the model. So, education might not depend on race.
 
-
-In model 2c we can see that the black coefficient is positive now (-0.18 --> 0.09). The standard error is quiet big, so that we can't verify a significance for this coefficient anymore. One assumption could be that, ???
-
-2ci)
+#### 2(c) - i
 ```{r 2ci, results="asis"}
 stargazer(mod2a,mod2c, title = "Comparison of models mod2a and mod2c", type="html", model.names = FALSE,column.labels = c("mod2a", "mod2c"), column.separate = c(1,1), style = "qje")
 ```
 
-2d)
+In model 2c we can see that the black coefficient is positive now. But this variable interacts with eduaction. This means being black causes an effect of +0.09-0.023*educ. So the wage of a black person depends in this case of his education. Model 2a do not integrate the interaction term. Therefore, being black decrease the persons wage by 19%.
+
+$\frac{\delta log(wage)}{\delta black}=\beta_2+\beta_1educ$
+
+However, the standard error for black in model 2c is quite big and we can't verify a significance for this coefficient anymore. As already seen in the hypothesis test above ($H0: \beta8 = 0 $), education also does not depend on the variable black and the model 2a might be the one which reflects the population in a better way. 
+
+#### 2(c) - ii
+```{r 2cii}
+c <- mod2c$coefficients["educ"]
+educ_c <- wage2$educ - c
+
+mod2cii <- lm(lwage ~ educ_c*black + exper + tenure + married + south + urban, data = wage2)
+summary(mod2cii)
+```
+
+The value we suggest is equal to estimate of education. Interpreting models with interactions can be tricky due to the fact that $\beta2$ (coefficient of black) just shows the partical effect of being black when his eduaction = 0. While using the equation black*(educ-c) we centring the variables around the mean value of education. 
+
+#### 2(d)
 ```{r 2d}
 mod2d <- lm(lwage ~ educ + black*married + exper + tenure + south + urban, data = wage2)
 summary(mod2d)
 ````
 
-Non_Married & Non_Black: Base Model
-Non_Married & Black:beta2
-Married & Non_Black:beta3
-Married & Black:beta2, beta 3, beta8
+Being not married and not black is our base model, which is illustrated by the intercept. 
+The second group (not_married & black) is represented by the coefficient $\beta2 = -0.240820$
+The coefficient $\beta3 = 0.188915$ presents the third group: being married and not being black. 
+Being married and black is represented by $\beta2 + \beta3 + \beta8$. 
 
-Diff married non_blacks & married blacks:
-beta2 + beta 8 = -0.24 + 0.06 = -0.18 (same like in mod2a)
+Therefore, the difference between the second and the forth group are  $\beta2 + \beta8 = -0.24 + 0.06 = -0.18$. (Same as in mod2a)
