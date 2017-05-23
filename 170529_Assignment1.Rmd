@@ -11,14 +11,14 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-setwd("~/Documents/C Education/3 HWR/2. Semester SS2017/ECO")
+#setwd("~/Documents/C Education/3 HWR/2. Semester SS2017/ECO")
 ```
 
 ```{r Initialization, warning=FALSE}
 library(foreign) #to read in the .dta format
 library(stargazer) #used in 1(c)-ii
-hprice <- read.dta("/Users/seppBookRetina/OneDrive/Dokumente/ECO/data/hprice1.dta")
-wage2 <- read.dta("/Users/seppBookRetina/OneDrive/Dokumente/ECO/data/WAGE2.DTA")
+hprice <- read.dta("/Users/marvin/Documents/Hochschule für Wirtschaft & Recht/Business Intelligence & Process Management/Econometrics/Data/hprice1.dta")
+wage2 <- read.dta("/Users/marvin/Documents/Hochschule für Wirtschaft & Recht/Business Intelligence & Process Management/Econometrics/Data/WAGE2.DTA")
 ```
 
 ##Task 1
@@ -112,7 +112,7 @@ $H_1: \beta_8>0; \beta_9>0$
 Dicision Rule:
 Reject H0 if $f > 1.114$ ($\alpha = 0.05$) -> Nochmal nachschauen!!!
 ```{r}
-qf(0.95, df1=925, df2=927)
+qf(0.95, df1=925, df2=927) #Wrong, Vera checks!!!
 ```
 
 
@@ -138,29 +138,30 @@ anova(mod2a,mod2b)
 
 
 2c)
-
 ```{r 2c}
 mod2c <- lm(lwage ~ educ*black + exper + tenure + married + south + urban, data = wage2)
 summary(mod2c)
-
 ````
 
 $H0: \beta8 =0$
 $H1: \beta8 != 0$ # sebastian fix!!! :) oder nur kleiner?
 
-Decision Rule: Reject H0 if t < | |   ($\alpha = 0.01 $)
+Decision Rule: Reject H0 if |t| > 1.64   ($\alpha = 0.1 $)
 
-As t(educ:black) is -1.121 , we can reject H0.
+As t(educ:black) is |-1.121| < 1.64, we can not reject H0.
 
-Base Model:Non black
-Black:
 
+In model 2c we can see that the black coefficient is positive now (-0.18 --> 0.09). The standard error is quiet big, so that we can't verify a significance for this coefficient anymore. One assumption could be that, ???
+
+2ci)
+```{r 2ci, results="asis"}
+stargazer(mod2a,mod2c, title = "Comparison of models mod2a and mod2c", type="html", model.names = FALSE,column.labels = c("mod2a", "mod2c"), column.separate = c(1,1), style = "qje")
+```
 
 2d)
 ```{r 2d}
 mod2d <- lm(lwage ~ educ + black*married + exper + tenure + south + urban, data = wage2)
 summary(mod2d)
-
 ````
 
 Non_Married & Non_Black: Base Model
