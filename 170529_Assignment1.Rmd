@@ -162,3 +162,11 @@ mod2d <- lm(lwage ~ educ + black*married + exper + tenure + south + urban, data 
 summary(mod2d)
 
 ````
+
+Non_Married & Non_Black: Base Model
+Non_Married & Black:beta2
+Married & Non_Black:beta3
+Married & Black:beta2, beta 3, beta8
+
+Diff married non_blacks & married blacks:
+beta2 + beta 8 = -0.24 + 0.06 = -0.18 (same like in mod2a)
