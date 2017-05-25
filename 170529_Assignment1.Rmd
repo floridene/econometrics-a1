@@ -69,6 +69,11 @@ $\frac{\delta log(price)}{\delta log(lotsize)}=\beta_2+2\beta_3log(lotsize)$
 
 In model "mod1c" we add the squared value of llotsize. As it is shown in the derivation above, the effect from lotsize by one unit depends on how many units of lotsize is already there. So if... EXAMPLE!!!
 
+#### 1(d)
+
+FEHLT NOCH!!!
+
+
 #### 1(e)
 At first we look at the variance of the error term of model 2, for which we square the Root MSE. In order to calculate the standard error of llotsize and bdrms we are using the SST and R-squared from the respective model outputs, where the variables are the dependent variable. We take the square root in order to arrive at the standard error instead of the variance.
 
@@ -185,14 +190,14 @@ However, the standard error for black in model 2c is quite big and we can't veri
 
 #### 2(c) - ii
 ```{r 2cii}
-c <- mean(wage2$educ)
+(c <- mean(wage2$educ))
 educ_c <- wage2$educ - c
 
 mod2cii <- lm(lwage ~ educ_c*black + exper + tenure + married + south + urban, data = wage2)
 summary(mod2cii)
 ```
 
-The value we suggest is equal to the mean of education. Interpreting models with interactions can be tricky due to the fact that $\beta2$ (coefficient of black) just shows the partical effect of being black when his eduaction = 0. While using the equation black*(educ-c) we centring the variables around the mean value of education. 
+The value we suggest is equal to the mean of education (13.5). Interpreting models with interactions can be tricky due to the fact that $\beta2$ (coefficient of black) just shows the partical effect of being black when his eduaction = 0. While using the equation black*(educ-c) we centring the variables around the mean value of education. 
 
 #### 2(d)
 ```{r 2d}
@@ -258,7 +263,7 @@ summary(mod3ii)
 #summary(mod3iv)
 #oder einfacheres model ohne sq??
 ```
-As shown in the output (mod3ii) we can assume that gender is independent from e401k. We test if $H_0: \beta5 = 0$ in a two-sided test using $\alpha = 0.05$. As the p-value of 0.77 is bigger than 0.05 we cannot reject $H_0$. So, the variable male would be independet of the change for participating in the plan or not. 
+As shown in the output (mod3ii) we can assume that e401k is independent from gender. We test if $H_0: \beta5 = 0$ in a two-sided test using $\alpha = 0.05$. As the p-value of 0.77 is bigger than 0.05 we cannot reject $H_0$. So, the probability of participating is independet of being male or female. 
 
 Furthermore, the variable income and age are signficant for the model. Therefore, e401k is dependent on these both variables. We could also test these both hypothesis, which are based on the output of model 3ii:
 
@@ -309,12 +314,14 @@ In total, 2460 people are classfied as eligible.
 
 ####3(viii)
 ```{r 3viii}
-#Correctly predicted eligibles:
-(TPR = ConfMat[2,2]/TP)
-
 #Correctly predicted non_eligibles:
 (TNR = ConfMat[1,1]/sum(ConfMat[,1]))
+
+#Correctly predicted eligibles:
+(TPR = ConfMat[2,2]/TP)
 ```
 58% of all eligibiles are predicted correct.
 68% of all non eligibles are predicted correct.
+
+???
 
