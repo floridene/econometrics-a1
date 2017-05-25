@@ -19,9 +19,14 @@ library(foreign) #to read in the .dta format
 library(stargazer) #used in 1(c)-ii
 hprice <- read.dta("/Users/marvin/Documents/Hochschule fÃ¼r Wirtschaft & Recht/Business Intelligence & Process Management/Econometrics/Data/hprice1.dta")
 wage2 <- read.dta("/Users/marvin/Documents/Hochschule fÃ¼r Wirtschaft & Recht/Business Intelligence & Process Management/Econometrics/Data/WAGE2.DTA")
+ksubs <- read.dta("C:/Users/Vera/Documents/02 BIPM/02 Semester/Econometrics/datasets_tutorial1/stata/401ksubs.dta")
 ```
 
 ##Task 1
+```{r}
+head(hprice)
+```
+
 #### 1(a)
 ```{r 1a}
 names(hprice)
@@ -74,6 +79,10 @@ In detail, this is how $SE_{\beta_1}$ (bdrms) is calculated:
 $SE_{\beta_1}=\sqrt{\frac{\sigma^2}{SST_1(1-R^2_1)}} = \sqrt{\frac{0.23^2}{61.59*(1-0.0289)}}=0.0308$
 
 ##Task 2
+```{r}
+head(wage2)
+```
+
 ####2(a)
 ```{r 2a}
 mod2a <- lm(lwage ~ educ + exper + tenure + married + black + south + urban, data = wage2)
@@ -176,20 +185,20 @@ However, the standard error for black in model 2c is quite big and we can't veri
 
 #### 2(c) - ii
 ```{r 2cii}
-c <- mod2c$coefficients["educ"]
+c <- mean(wage2$educ)
 educ_c <- wage2$educ - c
 
 mod2cii <- lm(lwage ~ educ_c*black + exper + tenure + married + south + urban, data = wage2)
 summary(mod2cii)
 ```
 
-The value we suggest is equal to estimate of education. Interpreting models with interactions can be tricky due to the fact that $\beta2$ (coefficient of black) just shows the partical effect of being black when his eduaction = 0. While using the equation black*(educ-c) we centring the variables around the mean value of education. 
+The value we suggest is equal to the mean of education. Interpreting models with interactions can be tricky due to the fact that $\beta2$ (coefficient of black) just shows the partical effect of being black when his eduaction = 0. While using the equation black*(educ-c) we centring the variables around the mean value of education. 
 
 #### 2(d)
 ```{r 2d}
 mod2d <- lm(lwage ~ educ + black*married + exper + tenure + south + urban, data = wage2)
 summary(mod2d)
-````
+```
 
 Being not married and not black is our base model, which is illustrated by the intercept. 
 The second group (not_married & black) is represented by the coefficient $\beta2 = -0.240820$
@@ -197,3 +206,115 @@ The coefficient $\beta3 = 0.188915$ presents the third group: being married and 
 Being married and black is represented by $\beta2 + \beta3 + \beta8$. 
 
 Therefore, the difference between the second and the forth group are  $\beta2 + \beta8 = -0.24 + 0.06 = -0.18$. (Same as in mod2a)
+
+##Task 3
+```{r}
+head(ksubs)
+```
+
+Just looking at the data "ksubs" reveals that our response variable e401k is a binary categorical variable. While fitting a linear regression model, it will lead to probabilities which are less than 0 or greater than 1. A logistic regression model fits better for this exercise.
+-> Heteroskedastic???
+
+
+####3(i)
+```{r 3i}
+(x <- table(ksubs$e401k))
+n <- nrow(ksubs)
+(Fractions <- x/n)
+```
+In our data we have 5638 people (61%) which are not eligible for participating in a 401(k) plan, and 3637 people (39%) which are eligible for participating. 
+
+####3(ii): Linear Model
+
+$e401k = \beta_0 + \beta_1*inc + \beta_2 * incsq +  \beta_3*age + \beta_4 * agesq + \beta_5 * male$
+```{r 3ii}
+mod3ii <- lm(e401k ~ inc + incsq + age + agesq + male, data = ksubs)
+summary(mod3ii)
+```
+
+####3(iii & v) Interprtation of coef.
+Also already mentioned above, we gain propabilities less than 0 or greater than 1 by running a linear model. 
+
+This are the following effects on the response e401k if one predictor x is increased by one unit while holding the other predictors fix (linear model). Furthermore, we calculate the fitted values (Ex. v)
+
+$\frac{\delta e401k}{\delta inc}=\beta_1+\beta_2inc = 0.01245 -0.00006165 * inc $
+The effect of one unit increase in income depends on income itself. Saying we have an income about 30,000 we gain an effect of $-1.83705 = -183%$. Therefore, the probability of being eligiable for participating is $-0.5063 -1.83705 = -2.34335 = -234$% (Das stimmt glaube nicht...)
+
+$\frac{\delta log(wage)}{\delta black}=\beta_3+\beta_4age = 0.02651 -0.0003053 * age $
+The effect for age is similar to variable income as the derivation also depends on the value itself. Saying we look at the age of 40 (median of age), the effect is +0.014298 = 1.4%. 
+
+40 jähriger -> Intercept + beta3 * 40 + beta4 * 40^2 ?? oder?   
+
+$\frac{\delta log(wage)}{\delta black}=\beta_5 = -0.003533$
+Our base model is being a woman. So being a male will in crease the probability of eligibilty for participating by -0.3533%. The prediction of a man to participate in this program is $-0.5063 -0.003533 = -0.509833 = -50.98$%
+
+* Wie zeigt der mit das % Zeichen in der Gleichung an, Sebastian? :) 
+
+####3(iv) Independence of e401k
+```{r 3iv}
+summary(mod3ii)
+
+#mod3iv <- lm(e401k ~ inc + age + male, data = ksubs)
+#summary(mod3iv)
+#oder einfacheres model ohne sq??
+```
+As shown in the output (mod3ii) we can assume that gender is independent from e401k. We test if $H_0: \beta5 = 0$ in a two-sided test using $\alpha = 0.05$. As the p-value of 0.77 is bigger than 0.05 we cannot reject $H_0$. So, the variable male would be independet of the change for participating in the plan or not. 
+
+Furthermore, the variable income and age are signficant for the model. Therefore, e401k is dependent on these both variables. We could also test these both hypothesis, which are based on the output of model 3ii:
+
+Income:
+$H_0: \beta1 = 0, \beta2 = 0$ (two sided test, $\alpha = 0.05)
+We reject $H_0$ as both p_values < 0.05. 
+
+Age:
+$H_0: \beta3 = 0, \beta4 = 0$ (two sided test, $\alpha = 0.05)
+We reject $H_0$ as both p_values < 0.05. 
+
+-> Man könnte bestimmt auch ein Ftest machen?? Aber keine Ahnung :D
+
+
+####3(vi) Confusion Matrix (1)
+```{r 3 vi}
+preds = predict(mod3ii)
+head(preds)
+# we would need a train and test set?? stupid prediction :D
+
+pCutoff = 0.5
+preds_cutoff = as.numeric(preds > pCutoff)
+
+#table(preds_cutoff)
+#table(ksubs$e401k)
+(ConfMat = table(ksubs$e401k,preds_cutoff))
+```
+True Negatives = 4607 people are correctly classified not being eligible.
+True Positives = 1429 people are correctly classified being eligible.
+
+False Positives = 1031 non eligible people are classified as eligible. 
+False Negatives = 2208 eligible people are classified as non eligible.
+
+```{r}
+(TP = sum(ConfMat[,2]))
+```
+
+In total, 2460 people are classfied as eligible.
+
+####3(vii) Confusion Matrix (2)
+```{r 3vii}
+#Correctly predicted:
+((4607+1429)/nrow(ksubs))
+```
+
+
+65% of all predicted observations are correctly classified.  
+
+####3(viii)
+```{r 3viii}
+#Correctly predicted eligibles:
+(TPR = ConfMat[2,2]/TP)
+
+#Correctly predicted non_eligibles:
+(TNR = ConfMat[1,1]/sum(ConfMat[,1]))
+```
+58% of all eligibiles are predicted correct.
+68% of all non eligibles are predicted correct.
+
