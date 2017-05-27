@@ -677,7 +677,7 @@ SSRr</code></pre>
 <pre><code>## [1] 123.421</code></pre>
 <p>Our null hypothesis is that both additional variables have no explanatory power. So, model 2a (the smaller one) would be better than model 2b.</p>
 <p><span class="math inline">\(H_0: \beta_8=0; \beta_9=0\)</span> <span class="math inline">\(H_1: \beta_8&gt;0; \beta_9&gt;0\)</span></p>
-<p>Dicision Rule: Reject H0 if <span class="math inline">\(F &gt; 1.89\)</span> (<span class="math inline">\(\alpha = 0.05\)</span>, one sided test)</p>
+<p>Decision Rule: Reject H0 if <span class="math inline">\(F &gt; 1.89\)</span> (<span class="math inline">\(\alpha = 0.05\)</span>, one sided test)</p>
 <p>In R we also can calculate the critical value instead of using the table of the F-distributions:</p>
 <pre class="r"><code>#(1-/alpha, k, n-k-1)
 qf(0.95, 9, 925)</code></pre>
@@ -735,7 +735,7 @@ summary(mod2c)</code></pre>
 ## Multiple R-squared:  0.2536, Adjusted R-squared:  0.2471 
 ## F-statistic: 39.32 on 8 and 926 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>Our null hypothesis is that the interaction term between education and black has no effect on the model response.</p>
-<p><span class="math inline">\(H0: \beta8 =0\)</span> <span class="math inline">\(H1: \beta8 != 0\)</span> # sebastian, please fix unequal sign!!! :)</p>
+<p><span class="math inline">\(H0: \beta8 =0\)</span> <span class="math inline">\(H1: \beta8 \neq 0\)</span></p>
 <p>Decision Rule: Reject H0 if |t| &gt; 1.64 ($= 0.1 $, two sided test)</p>
 <p>As t(educ:black) is |-1.121| &lt; 1.64 (as well as: p-value of 26% &gt; 10%), we cannot reject H0. The interaction term between education and black might not have an effect on the model. So, education might not depend on race.</p>
 </div>
@@ -1124,7 +1124,7 @@ F Statistic
 </table>
 <p>In model 2c we can see that the black coefficient is positive now. But this variable interacts with eduaction. This means being black causes an effect of +0.09-0.023*educ. So the wage of a black person depends in this case of his education. Model 2a do not integrate the interaction term. Therefore, being black decrease the persons wage by 19%.</p>
 <p><span class="math inline">\(\frac{\delta log(wage)}{\delta black}=\beta_2+\beta_1educ\)</span></p>
-<p>However, the standard error for black in model 2c is quite big and we can’t verify a significance for this coefficient anymore. As already seen in the hypothesis test above ($H0: 8 = 0 $), education also does not depend on the variable black and the model 2a might be the one which reflects the population in a better way.</p>
+<p>However, the standard error for black in model 2c is quite big and we can’t verify a significance for this coefficient anymore. As already seen in the hypothesis test above (<span class="math inline">\(H0: \beta8 = 0\)</span>), education also does not depend on the variable black and the model 2a might be the one which reflects the population in a better way.</p>
 </div>
 <div id="c---ii-1" class="section level4">
 <h4>2(c) - ii</h4>
