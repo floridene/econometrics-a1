@@ -221,14 +221,28 @@ div.tocify {
 </div>
 
 
-<pre class="r"><code>library(foreign) #to read in the .dta format</code></pre>
-<pre><code>## Warning: package 'foreign' was built under R version 3.3.2</code></pre>
-<pre class="r"><code>library(stargazer) #used in 1(c)-ii</code></pre>
-<pre><code>## 
-## Please cite as:</code></pre>
-<pre><code>##  Hlavac, Marek (2015). stargazer: Well-Formatted Regression and Summary Statistics Tables.</code></pre>
-<pre><code>##  R package version 5.2. http://CRAN.R-project.org/package=stargazer</code></pre>
-<pre class="r"><code>hprice &lt;- read.dta(&quot;/Users/seppBookRetina/OneDrive/Dokumente/ECO/data/hprice1.dta&quot;)</code></pre>
+<pre class="r"><code>library(foreign) #to read in the .dta format
+library(stargazer) #used in 1(c)-ii
+hprice &lt;- read.dta(&quot;hprice1.dta&quot;)
+wage2 &lt;- read.dta(&quot;WAGE2.DTA&quot;)
+ksubs &lt;- read.dta(&quot;401ksubs.dta&quot;)</code></pre>
+<div id="task-1" class="section level2">
+<h2>Task 1</h2>
+<pre class="r"><code>head(hprice)</code></pre>
+<pre><code>##     price assess bdrms lotsize sqrft colonial   lprice  lassess llotsize
+## 1 300.000  349.1     4    6126  2438        1 5.703783 5.855359 8.720297
+## 2 370.000  351.5     3    9903  2076        1 5.913503 5.862210 9.200593
+## 3 191.000  217.7     3    5200  1374        0 5.252274 5.383118 8.556414
+## 4 195.000  231.8     3    4600  1448        1 5.273000 5.445875 8.433811
+## 5 373.000  319.1     4    6095  2514        1 5.921578 5.765504 8.715224
+## 6 466.275  414.5     5    8566  2754        1 6.144775 6.027073 9.055556
+##     lsqrft
+## 1 7.798934
+## 2 7.638198
+## 3 7.225482
+## 4 7.277938
+## 5 7.829630
+## 6 7.920810</code></pre>
 <div id="a" class="section level4">
 <h4>1(a)</h4>
 <pre class="r"><code>names(hprice)</code></pre>
@@ -242,7 +256,7 @@ div.tocify {
 ##  Mean   :293.5   Mean   :3.568   Mean   : 9020  
 ##  3rd Qu.:326.2   3rd Qu.:4.000   3rd Qu.: 8583  
 ##  Max.   :725.0   Max.   :7.000   Max.   :92681</code></pre>
-<p>The sample mean of price is 293.5. The summary statistics fan be found above.</p>
+<p>The sample mean of price is 293.5. The summary statistics can be found above.</p>
 </div>
 <div id="b" class="section level4">
 <h4>1(b)</h4>
@@ -267,9 +281,10 @@ summary(mod1b)</code></pre>
 ## Residual standard error: 0.2376 on 85 degrees of freedom
 ## Multiple R-squared:  0.4013, Adjusted R-squared:  0.3872 
 ## F-statistic: 28.49 on 2 and 85 DF,  p-value: 3.399e-10</code></pre>
-<p>The summary provides us with an R-Squared of 40.13% - this means that 40% of deviation in price can be explained by the predictors chosen. We are also provided with an adjusted R-squared, which is adjusted not to consider the count of variables used for the model. n can be derived from the degrees of freedom: <span class="math inline">\(DF = n-k-1 \Leftrightarrow 85 = 88-2-1\)</span> From this formula we can easily deduct the number of observations n, which is 88.</p>
-<p>If we consider that bdrms and lotsize is equal to 0, the price is the value of the intercept: 2.95. If bdrms is increasing by one extra room while the other predictor lotsize is held fixed, the price increases by 0.14. For one increase in log(lotsize) the price rise by 0.24449.</p>
-<p>Furthermore, both coefficients are significant. The p-vales of both coefficients are one indicator for the significance. As they are lower than ALPHA = 5% (and ALPHA =1%), we can reject that both predictors has no effect on the response price (H0: BETA1 = 0, BETA 2 = 0) in a two-sided test. Likewise we could look at the T-values for signifcance. In R the significance codes give also a clarification about the coef. significance.</p>
+<p>The summary provides us with an R-Squared of 40.13% - this means that 40% of deviation in (log-) price can be explained by the predictors chosen. We are also provided with an adjusted R-squared, which is adjusted not to consider the count of variables used for the model. n can be derived from the degrees of freedom: <span class="math inline">\(DF = n-k-1 \Leftrightarrow 85 = 88-2-1\)</span> From this formula we can easily deduct the number of observations n, which is 88.</p>
+<p>If we consider that bdrms and lotsize is equal to 0, the price is the value of the intercept: 2.95. The model isa log-level-model. This means, an increase of one predictor by holding the others fixed leads to an percentage increase of the response varible (log-price). So, if bdrms is increasing by one extra room while the other predictor lotsize is held fixed, the price increases by 14%. For one increase in log(lotsize) the price rise by 24.4%.</p>
+<p><span class="math inline">\(\frac{\delta log(price)}{\delta bdrms}=\beta_1\)</span> <span class="math inline">\(\frac{\delta log(price)}{\delta log(lotsize)}=\beta_2\)</span></p>
+<p>Furthermore, both coefficients are significant. The p-vales of both coefficients are one indicator for the significance. As they are lower than <span class="math inline">\(\alpha = 5%\)</span> (and <span class="math inline">\(\alpha = 1%\)</span>), we can reject that both predictors has no effect on the response price (H0: <span class="math inline">\(\beta_1 = 0, \beta_2 =0\)</span>) in a two-sided test. Likewise we could look at the t-values for signifcance. In R the significance codes give also a clarification about the coef. significance.</p>
 </div>
 <div id="c---i" class="section level4">
 <h4>1(c) - i</h4>
@@ -540,30 +555,781 @@ F Statistic
 <p><span class="math inline">\(\frac{\delta log(price)}{\delta log(lotsize)}=\beta_2+2\beta_3log(lotsize)\)</span></p>
 <p>In model “mod1c” we add the squared value of llotsize. As it is shown in the derivation above, the effect from lotsize by one unit depends on how many units of lotsize is already there. So if… EXAMPLE!!!</p>
 </div>
+<div id="d" class="section level4">
+<h4>1(d)</h4>
+<p>FEHLT NOCH!!!</p>
+</div>
 <div id="e" class="section level4">
 <h4>1(e)</h4>
-<p>In order to calculate the standard error of llotsize we calculate <span class="math inline">\(SE_{\beta_2}=\sqrt{\frac{\sigma^2}{SST_2(1-R^2_2)}} = \sqrt{\frac{0.23^2}{25.75*(1-0.9939)}}=0.604\)</span></p>
-<pre class="r"><code>summary(lm(lprice ~ bdrms+llotsize+sqllotsize, data = hprice))</code></pre>
+<p>At first we look at the variance of the error term of model 2, for which we square the Root MSE. In order to calculate the standard error of llotsize and bdrms we are using the SST and R-squared from the respective model outputs, where the variables are the dependent variable. We take the square root in order to arrive at the standard error instead of the variance.</p>
+<p>In detail, this is how <span class="math inline">\(SE_{\beta_2}\)</span> (llotsize) is calculated:<br />
+<span class="math inline">\(SE_{\beta_2}=\sqrt{\frac{\sigma^2}{SST_2(1-R^2_2)}} = \sqrt{\frac{0.23^2}{25.75*(1-0.9939)}}=0.604\)</span></p>
+<p>In detail, this is how <span class="math inline">\(SE_{\beta_1}\)</span> (bdrms) is calculated:<br />
+<span class="math inline">\(SE_{\beta_1}=\sqrt{\frac{\sigma^2}{SST_1(1-R^2_1)}} = \sqrt{\frac{0.23^2}{61.59*(1-0.0289)}}=0.0308\)</span></p>
+</div>
+</div>
+<div id="task-2" class="section level2">
+<h2>Task 2</h2>
+<pre class="r"><code>head(wage2)</code></pre>
+<pre><code>##   wage hours  IQ KWW educ exper tenure age married black south urban sibs
+## 1  769    40  93  35   12    11      2  31       1     0     0     1    1
+## 2  808    50 119  41   18    11     16  37       1     0     0     1    1
+## 3  825    40 108  46   14    11      9  33       1     0     0     1    1
+## 4  650    40  96  32   12    13      7  32       1     0     0     1    4
+## 5  562    40  74  27   11    14      5  34       1     0     0     1   10
+## 6 1400    40 116  43   16    14      2  35       1     1     0     1    1
+##   brthord meduc feduc    lwage
+## 1       2     8     8 6.645091
+## 2      NA    14    14 6.694562
+## 3       2    14    14 6.715384
+## 4       3    12    12 6.476973
+## 5       6     6    11 6.331502
+## 6       2     8    NA 7.244227</code></pre>
+<div id="a-1" class="section level4">
+<h4>2(a)</h4>
+<pre class="r"><code>mod2a &lt;- lm(lwage ~ educ + exper + tenure + married + black + south + urban, data = wage2)
+summary(mod2a)</code></pre>
 <pre><code>## 
 ## Call:
-## lm(formula = lprice ~ bdrms + llotsize + sqllotsize, data = hprice)
+## lm(formula = lwage ~ educ + exper + tenure + married + black + 
+##     south + urban, data = wage2)
 ## 
 ## Residuals:
 ##      Min       1Q   Median       3Q      Max 
-## -0.85603 -0.12371  0.00907  0.12133  0.63947 
+## -1.98069 -0.21996  0.00707  0.24288  1.22822 
 ## 
 ## Coefficients:
-##             Estimate Std. Error t value Pr(&gt;|t|)    
-## (Intercept) 3.673910   2.793093   1.315    0.192    
-## bdrms       0.140325   0.030897   4.542 1.85e-05 ***
-## llotsize    0.087582   0.604419   0.145    0.885    
-## sqllotsize  0.008526   0.032741   0.260    0.795    
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  5.395497   0.113225  47.653  &lt; 2e-16 ***
+## educ         0.065431   0.006250  10.468  &lt; 2e-16 ***
+## exper        0.014043   0.003185   4.409 1.16e-05 ***
+## tenure       0.011747   0.002453   4.789 1.95e-06 ***
+## married      0.199417   0.039050   5.107 3.98e-07 ***
+## black       -0.188350   0.037667  -5.000 6.84e-07 ***
+## south       -0.090904   0.026249  -3.463 0.000558 ***
+## urban        0.183912   0.026958   6.822 1.62e-11 ***
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ## 
-## Residual standard error: 0.239 on 84 degrees of freedom
-## Multiple R-squared:  0.4018, Adjusted R-squared:  0.3804 
-## F-statistic: 18.81 on 3 and 84 DF,  p-value: 2.019e-09</code></pre>
+## Residual standard error: 0.3655 on 927 degrees of freedom
+## Multiple R-squared:  0.2526, Adjusted R-squared:  0.2469 
+## F-statistic: 44.75 on 7 and 927 DF,  p-value: &lt; 2.2e-16</code></pre>
+<pre class="r"><code>wage2$nonblack &lt;- 1 - wage2$black
+
+#90% Confidence Interval (alpha = 0.05 two-sided)
+x = mod2a$coefficients[&quot;black&quot;]
+SE = sqrt(diag(vcov(mod2a)))[&quot;black&quot;]
+CI1= x - SE * 1.64
+CI2 = x + SE * 1.64
+(salary_black &lt;-cbind(CI1, CI2))</code></pre>
+<pre><code>##              CI1        CI2
+## black -0.2501232 -0.1265766</code></pre>
+<p>The salary difference can be found from the coefficient <span class="math inline">\(\beta_5\)</span> in model mod2a, it is -0.1884. As the CI is not included in R’s standard model output, we calculated it manually.</p>
+</div>
+<div id="b-1" class="section level4">
+<h4>2(b)</h4>
+<pre class="r"><code>#Creating the additional variables
+wage2$exper_sq &lt;- wage2$exper^2
+wage2$tenure_sq &lt;- wage2$tenure^2
+
+mod2b &lt;- lm(lwage ~ educ + exper + tenure + married + black + south + urban + exper_sq + tenure_sq, data = wage2)
+summary(mod2b)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = lwage ~ educ + exper + tenure + married + black + 
+##     south + urban + exper_sq + tenure_sq, data = wage2)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -1.98236 -0.21972 -0.00036  0.24078  1.25127 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  5.3586757  0.1259143  42.558  &lt; 2e-16 ***
+## educ         0.0642761  0.0063115  10.184  &lt; 2e-16 ***
+## exper        0.0172146  0.0126138   1.365 0.172665    
+## tenure       0.0249291  0.0081297   3.066 0.002229 ** 
+## married      0.1985470  0.0391103   5.077 4.65e-07 ***
+## black       -0.1906636  0.0377011  -5.057 5.13e-07 ***
+## south       -0.0912153  0.0262356  -3.477 0.000531 ***
+## urban        0.1854241  0.0269585   6.878 1.12e-11 ***
+## exper_sq    -0.0001138  0.0005319  -0.214 0.830622    
+## tenure_sq   -0.0007964  0.0004710  -1.691 0.091188 .  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.3653 on 925 degrees of freedom
+## Multiple R-squared:  0.255,  Adjusted R-squared:  0.2477 
+## F-statistic: 35.17 on 9 and 925 DF,  p-value: &lt; 2.2e-16</code></pre>
+<pre class="r"><code>#Calculating the residual sum of squares for both models
+SSRr &lt;- sum(mod2a$residuals^2)
+SSRur &lt;- sum(mod2b$residuals^2)
+
+SSRr</code></pre>
+<pre><code>## [1] 123.8185</code></pre>
+<pre class="r"><code>SSRur</code></pre>
+<pre><code>## [1] 123.421</code></pre>
+<p>Our null hypothesis is that both additional variables have no explanatory power. So, model 2a (the smaller one) would be better than model 2b.</p>
+<p><span class="math inline">\(H_0: \beta_8=0; \beta_9=0\)</span> <span class="math inline">\(H_1: \beta_8&gt;0; \beta_9&gt;0\)</span></p>
+<p>Dicision Rule: Reject H0 if <span class="math inline">\(F &gt; 1.89\)</span> (<span class="math inline">\(\alpha = 0.05\)</span>, one sided test)</p>
+<p>In R we also can calculate the critical value instead of using the table of the F-distributions:</p>
+<pre class="r"><code>#(1-/alpha, k, n-k-1)
+qf(0.95, 9, 925)</code></pre>
+<pre><code>## [1] 1.889985</code></pre>
+<p>To calculate the F-statistic, we use the following formula: <span class="math inline">\(F = \frac{(SSR_r - SSR_{ur}) / q}{SSR_{ur} / (n - k - 1)}\)</span></p>
+<p>In this case the restricted model is 2a and the unrestricted one is model 2b.</p>
+<pre class="r"><code>q = 2
+n = 935 
+k= 9
+
+(F_test=((SSRr-SSRur) / q)/(SSRur / (n-k-1)))</code></pre>
+<pre><code>## [1] 1.489806</code></pre>
+<p>Substituted with our values: <span class="math inline">\(F = \frac{(123.8185 - 123.421) / 2}{123.421 / (935 - 9 - 1)} = 1.489806\)</span></p>
+<p>We cannot reject our H0, because F &lt; 1.89 and lies inside the 95% Interval. This means <span class="math inline">\(\beta8\)</span> and <span class="math inline">\(\beta9\)</span> do not provide additional explanation power. This is also seen in the output of model 2b. The p-values of these both coefficients are greater than <span class="math inline">\(\alpha = 0.05\)</span>. So, exper_sq and tenure_sq might not be signifcant for our model.</p>
+<p>-&gt; beta9 ist gerade noch so significant bei onesided test 5% = 0.09/2</p>
+<p>Furthermore, we can calcualte the Anova of these both models. The result underlines the previous expanation of the non-rejection of H0.</p>
+<pre class="r"><code>anova(mod2a,mod2b)</code></pre>
+<pre><code>## Analysis of Variance Table
+## 
+## Model 1: lwage ~ educ + exper + tenure + married + black + south + urban
+## Model 2: lwage ~ educ + exper + tenure + married + black + south + urban + 
+##     exper_sq + tenure_sq
+##   Res.Df    RSS Df Sum of Sq      F Pr(&gt;F)
+## 1    927 123.82                           
+## 2    925 123.42  2   0.39756 1.4898  0.226</code></pre>
+</div>
+<div id="c" class="section level4">
+<h4>2(c)</h4>
+<pre class="r"><code>mod2c &lt;- lm(lwage ~ educ*black + exper + tenure + married + south + urban, data = wage2)
+summary(mod2c)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = lwage ~ educ * black + exper + tenure + married + 
+##     south + urban, data = wage2)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -1.97782 -0.21832  0.00475  0.24136  1.23226 
+## 
+## Coefficients:
+##              Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)  5.374817   0.114703  46.859  &lt; 2e-16 ***
+## educ         0.067115   0.006428  10.442  &lt; 2e-16 ***
+## black        0.094809   0.255399   0.371 0.710561    
+## exper        0.013826   0.003191   4.333 1.63e-05 ***
+## tenure       0.011787   0.002453   4.805 1.80e-06 ***
+## married      0.198908   0.039047   5.094 4.25e-07 ***
+## south       -0.089450   0.026277  -3.404 0.000692 ***
+## urban        0.183852   0.026955   6.821 1.63e-11 ***
+## educ:black  -0.022624   0.020183  -1.121 0.262603    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.3654 on 926 degrees of freedom
+## Multiple R-squared:  0.2536, Adjusted R-squared:  0.2471 
+## F-statistic: 39.32 on 8 and 926 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>Our null hypothesis is that the interaction term between education and black has no effect on the model response.</p>
+<p><span class="math inline">\(H0: \beta8 =0\)</span> <span class="math inline">\(H1: \beta8 != 0\)</span> # sebastian, please fix unequal sign!!! :)</p>
+<p>Decision Rule: Reject H0 if |t| &gt; 1.64 ($= 0.1 $, two sided test)</p>
+<p>As t(educ:black) is |-1.121| &lt; 1.64 (as well as: p-value of 26% &gt; 10%), we cannot reject H0. The interaction term between education and black might not have an effect on the model. So, education might not depend on race.</p>
+</div>
+<div id="c---i-1" class="section level4">
+<h4>2(c) - i</h4>
+<pre class="r"><code>stargazer(mod2a,mod2c, title = &quot;Comparison of models mod2a and mod2c&quot;, type=&quot;html&quot;, model.names = FALSE,column.labels = c(&quot;mod2a&quot;, &quot;mod2c&quot;), column.separate = c(1,1), style = &quot;qje&quot;)</code></pre>
+<table style="text-align:center">
+<caption>
+<strong>Comparison of models mod2a and mod2c</strong>
+</caption>
+<tr>
+<td colspan="3" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td colspan="2">
+lwage
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+mod2a
+</td>
+<td>
+mod2c
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(1)
+</td>
+<td>
+(2)
+</td>
+</tr>
+<tr>
+<td colspan="3" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+educ
+</td>
+<td>
+0.065<sup>***</sup>
+</td>
+<td>
+0.067<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.006)
+</td>
+<td>
+(0.006)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+exper
+</td>
+<td>
+0.014<sup>***</sup>
+</td>
+<td>
+0.014<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.003)
+</td>
+<td>
+(0.003)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+tenure
+</td>
+<td>
+0.012<sup>***</sup>
+</td>
+<td>
+0.012<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.002)
+</td>
+<td>
+(0.002)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+married
+</td>
+<td>
+0.199<sup>***</sup>
+</td>
+<td>
+0.199<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.039)
+</td>
+<td>
+(0.039)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+black
+</td>
+<td>
+-0.188<sup>***</sup>
+</td>
+<td>
+0.095
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.038)
+</td>
+<td>
+(0.255)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+south
+</td>
+<td>
+-0.091<sup>***</sup>
+</td>
+<td>
+-0.089<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.026)
+</td>
+<td>
+(0.026)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+urban
+</td>
+<td>
+0.184<sup>***</sup>
+</td>
+<td>
+0.184<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.027)
+</td>
+<td>
+(0.027)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+educ:black
+</td>
+<td>
+</td>
+<td>
+-0.023
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+(0.020)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Constant
+</td>
+<td>
+5.395<sup>***</sup>
+</td>
+<td>
+5.375<sup>***</sup>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+(0.113)
+</td>
+<td>
+(0.115)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td>
+</td>
+<td>
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+<em>N</em>
+</td>
+<td>
+935
+</td>
+<td>
+935
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+R<sup>2</sup>
+</td>
+<td>
+0.253
+</td>
+<td>
+0.254
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Adjusted R<sup>2</sup>
+</td>
+<td>
+0.247
+</td>
+<td>
+0.247
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+Residual Std. Error
+</td>
+<td>
+0.365 (df = 927)
+</td>
+<td>
+0.365 (df = 926)
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+F Statistic
+</td>
+<td>
+44.747<sup>***</sup> (df = 7; 927)
+</td>
+<td>
+39.322<sup>***</sup> (df = 8; 926)
+</td>
+</tr>
+<tr>
+<td colspan="3" style="border-bottom: 1px solid black">
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+<em>Notes:</em>
+</td>
+<td colspan="2" style="text-align:right">
+<sup>***</sup>Significant at the 1 percent level.
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td colspan="2" style="text-align:right">
+<sup>**</sup>Significant at the 5 percent level.
+</td>
+</tr>
+<tr>
+<td style="text-align:left">
+</td>
+<td colspan="2" style="text-align:right">
+<sup>*</sup>Significant at the 10 percent level.
+</td>
+</tr>
+</table>
+<p>In model 2c we can see that the black coefficient is positive now. But this variable interacts with eduaction. This means being black causes an effect of +0.09-0.023*educ. So the wage of a black person depends in this case of his education. Model 2a do not integrate the interaction term. Therefore, being black decrease the persons wage by 19%.</p>
+<p><span class="math inline">\(\frac{\delta log(wage)}{\delta black}=\beta_2+\beta_1educ\)</span></p>
+<p>However, the standard error for black in model 2c is quite big and we can’t verify a significance for this coefficient anymore. As already seen in the hypothesis test above ($H0: 8 = 0 $), education also does not depend on the variable black and the model 2a might be the one which reflects the population in a better way.</p>
+</div>
+<div id="c---ii-1" class="section level4">
+<h4>2(c) - ii</h4>
+<pre class="r"><code>(c &lt;- mean(wage2$educ))</code></pre>
+<pre><code>## [1] 13.46845</code></pre>
+<pre class="r"><code>educ_c &lt;- wage2$educ - c
+
+mod2cii &lt;- lm(lwage ~ educ_c*black + exper + tenure + married + south + urban, data = wage2)
+summary(mod2cii)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = lwage ~ educ_c * black + exper + tenure + married + 
+##     south + urban, data = wage2)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -1.97782 -0.21832  0.00475  0.24136  1.23226 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)   6.278756   0.055136 113.877  &lt; 2e-16 ***
+## educ_c        0.067115   0.006428  10.442  &lt; 2e-16 ***
+## black        -0.209896   0.042283  -4.964 8.21e-07 ***
+## exper         0.013826   0.003191   4.333 1.63e-05 ***
+## tenure        0.011787   0.002453   4.805 1.80e-06 ***
+## married       0.198908   0.039047   5.094 4.25e-07 ***
+## south        -0.089450   0.026277  -3.404 0.000692 ***
+## urban         0.183852   0.026955   6.821 1.63e-11 ***
+## educ_c:black -0.022624   0.020183  -1.121 0.262603    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.3654 on 926 degrees of freedom
+## Multiple R-squared:  0.2536, Adjusted R-squared:  0.2471 
+## F-statistic: 39.32 on 8 and 926 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>The value we suggest is equal to the mean of education (13.5). Interpreting models with interactions can be tricky due to the fact that <span class="math inline">\(\beta2\)</span> (coefficient of black) just shows the partical effect of being black when his eduaction = 0. While using the equation black*(educ-c) we centring the variables around the mean value of education.</p>
+</div>
+<div id="d-1" class="section level4">
+<h4>2(d)</h4>
+<pre class="r"><code>mod2d &lt;- lm(lwage ~ educ + black*married + exper + tenure + south + urban, data = wage2)
+summary(mod2d)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = lwage ~ educ + black * married + exper + tenure + 
+##     south + urban, data = wage2)
+## 
+## Residuals:
+##      Min       1Q   Median       3Q      Max 
+## -1.98013 -0.21780  0.01057  0.24219  1.22889 
+## 
+## Coefficients:
+##                Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept)    5.403793   0.114122  47.351  &lt; 2e-16 ***
+## educ           0.065475   0.006253  10.471  &lt; 2e-16 ***
+## black         -0.240820   0.096023  -2.508 0.012314 *  
+## married        0.188915   0.042878   4.406 1.18e-05 ***
+## exper          0.014146   0.003191   4.433 1.04e-05 ***
+## tenure         0.011663   0.002458   4.745 2.41e-06 ***
+## south         -0.091989   0.026321  -3.495 0.000497 ***
+## urban          0.184350   0.026978   6.833 1.50e-11 ***
+## black:married  0.061354   0.103275   0.594 0.552602    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.3656 on 926 degrees of freedom
+## Multiple R-squared:  0.2528, Adjusted R-squared:  0.2464 
+## F-statistic: 39.17 on 8 and 926 DF,  p-value: &lt; 2.2e-16</code></pre>
+<p>Being not married and not black is our base model, which is illustrated by the intercept. The second group (not_married &amp; black) is represented by the coefficient <span class="math inline">\(\beta2 = -0.240820\)</span> The coefficient <span class="math inline">\(\beta3 = 0.188915\)</span> presents the third group: being married and not being black. Being married and black is represented by <span class="math inline">\(\beta2 + \beta3 + \beta8\)</span>.</p>
+<p>Therefore, the difference between the second and the forth group are <span class="math inline">\(\beta2 + \beta8 = -0.24 + 0.06 = -0.18\)</span>. (Same as in mod2a)</p>
+</div>
+</div>
+<div id="task-3" class="section level2">
+<h2>Task 3</h2>
+<pre class="r"><code>head(ksubs)</code></pre>
+<pre><code>##   e401k    inc marr male age fsize  nettfa p401k pira     incsq agesq
+## 1     0 13.170    0    0  40     1   4.575     0    1  173.4489  1600
+## 2     1 61.230    0    1  35     1 154.000     1    0 3749.1128  1225
+## 3     0 12.858    1    0  44     2   0.000     0    0  165.3282  1936
+## 4     0 98.880    1    1  44     2  21.800     0    0 9777.2539  1936
+## 5     0 22.614    0    0  53     1  18.450     0    0  511.3930  2809
+## 6     0 15.000    1    0  60     3   0.000     0    0  225.0000  3600</code></pre>
+<p>Just looking at the data “ksubs” reveals that our response variable e401k is a binary categorical variable. While fitting a linear regression model, it will lead to probabilities which are less than 0 or greater than 1. A logistic regression model fits better for this exercise. -&gt; Heteroskedastic???</p>
+<div id="i" class="section level4">
+<h4>3(i)</h4>
+<pre class="r"><code>(x &lt;- table(ksubs$e401k))</code></pre>
+<pre><code>## 
+##    0    1 
+## 5638 3637</code></pre>
+<pre class="r"><code>n &lt;- nrow(ksubs)
+(Fractions &lt;- x/n)</code></pre>
+<pre><code>## 
+##         0         1 
+## 0.6078706 0.3921294</code></pre>
+<p>In our data we have 5638 people (61%) which are not eligible for participating in a 401(k) plan, and 3637 people (39%) which are eligible for participating.</p>
+</div>
+<div id="ii-linear-model" class="section level4">
+<h4>3(ii): Linear Model</h4>
+<p><span class="math inline">\(e401k = \beta_0 + \beta_1*inc + \beta_2 * incsq + \beta_3*age + \beta_4 * agesq + \beta_5 * male\)</span></p>
+<pre class="r"><code>mod3ii &lt;- lm(e401k ~ inc + incsq + age + agesq + male, data = ksubs)
+summary(mod3ii)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = e401k ~ inc + incsq + age + agesq + male, data = ksubs)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -0.6970 -0.3719 -0.2149  0.4870  0.9155 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) -5.063e-01  8.110e-02  -6.243 4.48e-10 ***
+## inc          1.245e-02  5.929e-04  20.993  &lt; 2e-16 ***
+## incsq       -6.165e-05  4.732e-06 -13.028  &lt; 2e-16 ***
+## age          2.651e-02  3.922e-03   6.758 1.49e-11 ***
+## agesq       -3.053e-04  4.501e-05  -6.782 1.26e-11 ***
+## male        -3.533e-03  1.208e-02  -0.292     0.77    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.4648 on 9269 degrees of freedom
+## Multiple R-squared:  0.09428,    Adjusted R-squared:  0.09379 
+## F-statistic:   193 on 5 and 9269 DF,  p-value: &lt; 2.2e-16</code></pre>
+</div>
+<div id="iii-v-interprtation-of-coef." class="section level4">
+<h4>3(iii &amp; v) Interprtation of coef.</h4>
+<p>Also already mentioned above, we gain propabilities less than 0 or greater than 1 by running a linear model.</p>
+<p>This are the following effects on the response e401k if one predictor x is increased by one unit while holding the other predictors fix (linear model). Furthermore, we calculate the fitted values (Ex. v)</p>
+<p>$=_1+_2inc = 0.01245 -0.00006165 * inc $ The effect of one unit increase in income depends on income itself. Saying we have an income about 30,000 we gain an effect of <span class="math inline">\(-1.83705 = -183%\)</span>. Therefore, the probability of being eligiable for participating is <span class="math inline">\(-0.5063 -1.83705 = -2.34335 = -234\)</span>% (Das stimmt glaube nicht…)</p>
+<p>$=_3+_4age = 0.02651 -0.0003053 * age $ The effect for age is similar to variable income as the derivation also depends on the value itself. Saying we look at the age of 40 (median of age), the effect is +0.014298 = 1.4%.</p>
+<p>40 j?hriger -&gt; Intercept + beta3 * 40 + beta4 * 40^2 ?? oder?</p>
+<p><span class="math inline">\(\frac{\delta log(wage)}{\delta black}=\beta_5 = -0.003533\)</span> Our base model is being a woman. So being a male will in crease the probability of eligibilty for participating by -0.3533%. The prediction of a man to participate in this program is <span class="math inline">\(-0.5063 -0.003533 = -0.509833 = -50.98\)</span>%</p>
+<ul>
+<li>Wie zeigt der mit das % Zeichen in der Gleichung an, Sebastian? :)</li>
+</ul>
+</div>
+<div id="iv-independence-of-e401k" class="section level4">
+<h4>3(iv) Independence of e401k</h4>
+<pre class="r"><code>summary(mod3ii)</code></pre>
+<pre><code>## 
+## Call:
+## lm(formula = e401k ~ inc + incsq + age + agesq + male, data = ksubs)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -0.6970 -0.3719 -0.2149  0.4870  0.9155 
+## 
+## Coefficients:
+##               Estimate Std. Error t value Pr(&gt;|t|)    
+## (Intercept) -5.063e-01  8.110e-02  -6.243 4.48e-10 ***
+## inc          1.245e-02  5.929e-04  20.993  &lt; 2e-16 ***
+## incsq       -6.165e-05  4.732e-06 -13.028  &lt; 2e-16 ***
+## age          2.651e-02  3.922e-03   6.758 1.49e-11 ***
+## agesq       -3.053e-04  4.501e-05  -6.782 1.26e-11 ***
+## male        -3.533e-03  1.208e-02  -0.292     0.77    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## Residual standard error: 0.4648 on 9269 degrees of freedom
+## Multiple R-squared:  0.09428,    Adjusted R-squared:  0.09379 
+## F-statistic:   193 on 5 and 9269 DF,  p-value: &lt; 2.2e-16</code></pre>
+<pre class="r"><code>#mod3iv &lt;- lm(e401k ~ inc + age + male, data = ksubs)
+#summary(mod3iv)
+#oder einfacheres model ohne sq??</code></pre>
+<p>As shown in the output (mod3ii) we can assume that e401k is independent from gender. We test if <span class="math inline">\(H_0: \beta5 = 0\)</span> in a two-sided test using <span class="math inline">\(\alpha = 0.05\)</span>. As the p-value of 0.77 is bigger than 0.05 we cannot reject <span class="math inline">\(H_0\)</span>. So, the probability of participating is independet of being male or female.</p>
+<p>Furthermore, the variable income and age are signficant for the model. Therefore, e401k is dependent on these both variables. We could also test these both hypothesis, which are based on the output of model 3ii:</p>
+<p>Income: <span class="math inline">\(H_0: \beta1 = 0, \beta2 = 0\)</span> (two sided test, $= 0.05) We reject <span class="math inline">\(H_0\)</span> as both p_values &lt; 0.05.</p>
+<p>Age: <span class="math inline">\(H_0: \beta3 = 0, \beta4 = 0\)</span> (two sided test, $= 0.05) We reject <span class="math inline">\(H_0\)</span> as both p_values &lt; 0.05.</p>
+<p>-&gt; Man k?nnte bestimmt auch ein Ftest machen?? Aber keine Ahnung :D</p>
+</div>
+<div id="vi-confusion-matrix-1" class="section level4">
+<h4>3(vi) Confusion Matrix (1)</h4>
+<pre class="r"><code>preds = predict(mod3ii)
+head(preds)</code></pre>
+<pre><code>##         1         2         3         4         5         6 
+## 0.2187508 0.5749038 0.2188220 0.6933926 0.2909696 0.1579327</code></pre>
+<pre class="r"><code># we would need a train and test set?? stupid prediction :D
+
+pCutoff = 0.5
+preds_cutoff = as.numeric(preds &gt; pCutoff)
+
+#table(preds_cutoff)
+#table(ksubs$e401k)
+(ConfMat = table(ksubs$e401k,preds_cutoff))</code></pre>
+<pre><code>##    preds_cutoff
+##        0    1
+##   0 4607 1031
+##   1 2208 1429</code></pre>
+<p>True Negatives = 4607 people are correctly classified not being eligible. True Positives = 1429 people are correctly classified being eligible.</p>
+<p>False Positives = 1031 non eligible people are classified as eligible. False Negatives = 2208 eligible people are classified as non eligible.</p>
+<pre class="r"><code>(TP = sum(ConfMat[,2]))</code></pre>
+<pre><code>## [1] 2460</code></pre>
+<p>In total, 2460 people are classfied as eligible.</p>
+</div>
+<div id="vii-confusion-matrix-2" class="section level4">
+<h4>3(vii) Confusion Matrix (2)</h4>
+<pre class="r"><code>#Correctly predicted:
+((4607+1429)/nrow(ksubs))</code></pre>
+<pre><code>## [1] 0.6507817</code></pre>
+<p>65% of all predicted observations are correctly classified.</p>
+</div>
+<div id="viii" class="section level4">
+<h4>3(viii)</h4>
+<pre class="r"><code>#Correctly predicted non_eligibles:
+(TNR = ConfMat[1,1]/sum(ConfMat[,1]))</code></pre>
+<pre><code>## [1] 0.6760088</code></pre>
+<pre class="r"><code>#Correctly predicted eligibles:
+(TPR = ConfMat[2,2]/TP)</code></pre>
+<pre><code>## [1] 0.5808943</code></pre>
+<p>58% of all eligibiles are predicted correct. 68% of all non eligibles are predicted correct.</p>
+<p>???</p>
+</div>
 </div>
 
 

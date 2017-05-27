@@ -14,12 +14,12 @@ knitr::opts_chunk$set(echo = TRUE)
 #setwd("~/Documents/C Education/3 HWR/2. Semester SS2017/ECO")
 ```
 
-```{r Initialization, warning=FALSE}
+```{r Initialization, warning=FALSE, message=FALSE}
 library(foreign) #to read in the .dta format
 library(stargazer) #used in 1(c)-ii
-hprice <- read.dta("/Users/marvin/Documents/Hochschule fÃ¼r Wirtschaft & Recht/Business Intelligence & Process Management/Econometrics/Data/hprice1.dta")
-wage2 <- read.dta("/Users/marvin/Documents/Hochschule fÃ¼r Wirtschaft & Recht/Business Intelligence & Process Management/Econometrics/Data/WAGE2.DTA")
-ksubs <- read.dta("C:/Users/Vera/Documents/02 BIPM/02 Semester/Econometrics/datasets_tutorial1/stata/401ksubs.dta")
+hprice <- read.dta("hprice1.dta")
+wage2 <- read.dta("WAGE2.DTA")
+ksubs <- read.dta("401ksubs.dta")
 ```
 
 ##Task 1
@@ -248,7 +248,7 @@ The effect of one unit increase in income depends on income itself. Saying we ha
 $\frac{\delta log(wage)}{\delta black}=\beta_3+\beta_4age = 0.02651 -0.0003053 * age $
 The effect for age is similar to variable income as the derivation also depends on the value itself. Saying we look at the age of 40 (median of age), the effect is +0.014298 = 1.4%. 
 
-40 jähriger -> Intercept + beta3 * 40 + beta4 * 40^2 ?? oder?   
+40 j?hriger -> Intercept + beta3 * 40 + beta4 * 40^2 ?? oder?   
 
 $\frac{\delta log(wage)}{\delta black}=\beta_5 = -0.003533$
 Our base model is being a woman. So being a male will in crease the probability of eligibilty for participating by -0.3533%. The prediction of a man to participate in this program is $-0.5063 -0.003533 = -0.509833 = -50.98$%
@@ -275,7 +275,7 @@ Age:
 $H_0: \beta3 = 0, \beta4 = 0$ (two sided test, $\alpha = 0.05)
 We reject $H_0$ as both p_values < 0.05. 
 
--> Man könnte bestimmt auch ein Ftest machen?? Aber keine Ahnung :D
+-> Man k?nnte bestimmt auch ein Ftest machen?? Aber keine Ahnung :D
 
 
 ####3(vi) Confusion Matrix (1)
