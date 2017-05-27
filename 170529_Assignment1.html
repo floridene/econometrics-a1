@@ -557,7 +557,13 @@ F Statistic
 </div>
 <div id="d" class="section level4">
 <h4>1(d)</h4>
-<p>FEHLT NOCH!!!</p>
+<p>The unbiased estimator usually implemented is <span class="math inline">\(\frac{SSR}{n-2}\)</span>. Generally, unbiasedness means that there is an average trend within repeated samples. Unbiasedness in this case means that the restrictions given by the OLS first order conditions are respected - which means an adjustment to the degrees of freedom.</p>
+<p>The two suggested variance estimates for mod1c are:</p>
+<pre class="r"><code>(sum(mod1c$residuals^2)/(nrow(hprice)-1))</code></pre>
+<pre><code>## [1] 0.05512925</code></pre>
+<pre class="r"><code>(sum(mod1c$residuals^2)/(nrow(hprice)-2))</code></pre>
+<pre><code>## [1] 0.05577029</code></pre>
+<p>There are no large differences because the bias of the first variance estimate is diminished by a rather large n.</p>
 </div>
 <div id="e" class="section level4">
 <h4>1(e)</h4>
@@ -1242,17 +1248,10 @@ summary(mod3ii)</code></pre>
 ## Multiple R-squared:  0.09428,    Adjusted R-squared:  0.09379 
 ## F-statistic:   193 on 5 and 9269 DF,  p-value: &lt; 2.2e-16</code></pre>
 </div>
-<div id="iii-v-interprtation-of-coef." class="section level4">
-<h4>3(iii &amp; v) Interprtation of coef.</h4>
-<p>Also already mentioned above, we gain propabilities less than 0 or greater than 1 by running a linear model.</p>
-<p>This are the following effects on the response e401k if one predictor x is increased by one unit while holding the other predictors fix (linear model). Furthermore, we calculate the fitted values (Ex. v)</p>
-<p>$=_1+_2inc = 0.01245 -0.00006165 * inc $ The effect of one unit increase in income depends on income itself. Saying we have an income about 30,000 we gain an effect of <span class="math inline">\(-1.83705 = -183%\)</span>. Therefore, the probability of being eligiable for participating is <span class="math inline">\(-0.5063 -1.83705 = -2.34335 = -234\)</span>% (Das stimmt glaube nicht…)</p>
-<p>$=_3+_4age = 0.02651 -0.0003053 * age $ The effect for age is similar to variable income as the derivation also depends on the value itself. Saying we look at the age of 40 (median of age), the effect is +0.014298 = 1.4%.</p>
-<p>40 j?hriger -&gt; Intercept + beta3 * 40 + beta4 * 40^2 ?? oder?</p>
-<p><span class="math inline">\(\frac{\delta log(wage)}{\delta black}=\beta_5 = -0.003533\)</span> Our base model is being a woman. So being a male will in crease the probability of eligibilty for participating by -0.3533%. The prediction of a man to participate in this program is <span class="math inline">\(-0.5063 -0.003533 = -0.509833 = -50.98\)</span>%</p>
-<ul>
-<li>Wie zeigt der mit das % Zeichen in der Gleichung an, Sebastian? :)</li>
-</ul>
+<div id="iii-interpretation-of-coefficients" class="section level4">
+<h4>3(iii) Interpretation of coefficients</h4>
+<p>As mentioned beforehand, through running a linear model, we obtain probabilities less than 0 or greater than 1.</p>
+<p>The estimates in the summary output for each predictor are the effects on the response e401k if one predictor x is increased by one unit while holding the other predictors fixed (linear model).</p>
 </div>
 <div id="iv-independence-of-e401k" class="section level4">
 <h4>3(iv) Independence of e401k</h4>
@@ -1282,11 +1281,21 @@ summary(mod3ii)</code></pre>
 <pre class="r"><code>#mod3iv &lt;- lm(e401k ~ inc + age + male, data = ksubs)
 #summary(mod3iv)
 #oder einfacheres model ohne sq??</code></pre>
-<p>As shown in the output (mod3ii) we can assume that e401k is independent from gender. We test if <span class="math inline">\(H_0: \beta5 = 0\)</span> in a two-sided test using <span class="math inline">\(\alpha = 0.05\)</span>. As the p-value of 0.77 is bigger than 0.05 we cannot reject <span class="math inline">\(H_0\)</span>. So, the probability of participating is independet of being male or female.</p>
+<p>As shown in the output (mod3ii) we can assume that e401k is independent from gender. We test if <span class="math inline">\(H_0: \beta_5 = 0\)</span> in a two-sided test using <span class="math inline">\(\alpha = 0.05\)</span>. As the p-value of 0.77 is bigger than 0.05 we cannot reject <span class="math inline">\(H_0\)</span>. So, the probability of participating is independet of being male or female.</p>
 <p>Furthermore, the variable income and age are signficant for the model. Therefore, e401k is dependent on these both variables. We could also test these both hypothesis, which are based on the output of model 3ii:</p>
-<p>Income: <span class="math inline">\(H_0: \beta1 = 0, \beta2 = 0\)</span> (two sided test, $= 0.05) We reject <span class="math inline">\(H_0\)</span> as both p_values &lt; 0.05.</p>
-<p>Age: <span class="math inline">\(H_0: \beta3 = 0, \beta4 = 0\)</span> (two sided test, $= 0.05) We reject <span class="math inline">\(H_0\)</span> as both p_values &lt; 0.05.</p>
+<p>Income: <span class="math inline">\(H_0: \beta_1 = 0, \beta_2 = 0\)</span> (two sided test, $= 0.05) We reject <span class="math inline">\(H_0\)</span> as both p_values &lt; 0.05.</p>
+<p>Age: <span class="math inline">\(H_0: \beta_3 = 0, \beta_4 = 0\)</span> (two sided test, $= 0.05) We reject <span class="math inline">\(H_0\)</span> as both p_values &lt; 0.05.</p>
 <p>-&gt; Man k?nnte bestimmt auch ein Ftest machen?? Aber keine Ahnung :D</p>
+</div>
+<div id="v-fitted-values" class="section level4">
+<h4>3(v) Fitted values</h4>
+<p>Wieso machst du bei deinen fitted Values erst die ableitung nach inc?</p>
+<p><span class="math inline">\(\frac{\delta e401k}{\delta inc}=\beta_1+\beta_2inc = 0.01245 -0.00006165 * inc\)</span><br />
+The effect of one unit increase in income depends on income itself. Saying we have an income about 30,000 we gain an effect of <span class="math inline">\(-1.83705 = -183\%\)</span>. Therefore, the probability of being eligiable for participating is <span class="math inline">\(-0.5063 -1.83705 = -2.34335 = -234\%\)</span> (Das stimmt glaube nicht…)  </p>
+<p><span class="math inline">\(\frac{\delta log(wage)}{\delta black}=\beta_3+\beta_4age = 0.02651 -0.0003053 * age\)</span><br />
+The effect for age is similar to variable income as the derivation also depends on the value itself. Saying we look at the age of 40 (median of age), the effect is +0.014298 = 1.4%.</p>
+<p><span class="math inline">\(40 jaehriger -&gt; Intercept + beta3 * 40 + beta4 * 40^2\)</span> ?? oder?</p>
+<p><span class="math inline">\(\frac{\delta log(wage)}{\delta black}=\beta_5 = -0.003533\)</span> Our base model is being a woman. So being a male will increase the probability of eligibilty for participating by -0.3533%. The prediction of a man to participate in this program is <span class="math inline">\(-0.5063 -0.003533 = -0.509833 = -50.98\%\)</span></p>
 </div>
 <div id="vi-confusion-matrix-1" class="section level4">
 <h4>3(vi) Confusion Matrix (1)</h4>
@@ -1328,7 +1337,7 @@ preds_cutoff = as.numeric(preds &gt; pCutoff)
 (TPR = ConfMat[2,2]/TP)</code></pre>
 <pre><code>## [1] 0.5808943</code></pre>
 <p>58% of all eligibiles are predicted correct. 68% of all non eligibles are predicted correct.</p>
-<p>???</p>
+<p>??? Welche Frage ist hier offen?</p>
 </div>
 </div>
 

@@ -70,8 +70,16 @@ $\frac{\delta log(price)}{\delta log(lotsize)}=\beta_2+2\beta_3log(lotsize)$
 In model "mod1c" we add the squared value of llotsize. As it is shown in the derivation above, the effect from lotsize by one unit depends on how many units of lotsize is already there. So if... EXAMPLE!!!
 
 #### 1(d)
+The unbiased estimator usually implemented is $\frac{SSR}{n-2}$.
+Generally, unbiasedness means that there is an average trend within repeated samples. Unbiasedness in this case means that the restrictions given by the OLS first order conditions are respected - which means an adjustment to the degrees of freedom.
 
-FEHLT NOCH!!!
+
+The two suggested variance estimates for mod1c are: 
+```{r 1d}
+(sum(mod1c$residuals^2)/(nrow(hprice)-1))
+(sum(mod1c$residuals^2)/(nrow(hprice)-2))
+```
+There are no large differences because the bias of the first variance estimate is diminished by a rather large n.
 
 
 #### 1(e)
@@ -237,23 +245,11 @@ mod3ii <- lm(e401k ~ inc + incsq + age + agesq + male, data = ksubs)
 summary(mod3ii)
 ```
 
-####3(iii & v) Interprtation of coef.
-Also already mentioned above, we gain propabilities less than 0 or greater than 1 by running a linear model. 
+####3(iii) Interpretation of coefficients
+As mentioned beforehand, through running a linear model, we obtain probabilities less than 0 or greater than 1.
 
-This are the following effects on the response e401k if one predictor x is increased by one unit while holding the other predictors fix (linear model). Furthermore, we calculate the fitted values (Ex. v)
+The estimates in the summary output for each predictor are the effects on the response e401k if one predictor x is increased by one unit while holding the other predictors fixed (linear model).
 
-$\frac{\delta e401k}{\delta inc}=\beta_1+\beta_2inc = 0.01245 -0.00006165 * inc $
-The effect of one unit increase in income depends on income itself. Saying we have an income about 30,000 we gain an effect of $-1.83705 = -183%$. Therefore, the probability of being eligiable for participating is $-0.5063 -1.83705 = -2.34335 = -234$% (Das stimmt glaube nicht...)
-
-$\frac{\delta log(wage)}{\delta black}=\beta_3+\beta_4age = 0.02651 -0.0003053 * age $
-The effect for age is similar to variable income as the derivation also depends on the value itself. Saying we look at the age of 40 (median of age), the effect is +0.014298 = 1.4%. 
-
-40 j?hriger -> Intercept + beta3 * 40 + beta4 * 40^2 ?? oder?   
-
-$\frac{\delta log(wage)}{\delta black}=\beta_5 = -0.003533$
-Our base model is being a woman. So being a male will in crease the probability of eligibilty for participating by -0.3533%. The prediction of a man to participate in this program is $-0.5063 -0.003533 = -0.509833 = -50.98$%
-
-* Wie zeigt der mit das % Zeichen in der Gleichung an, Sebastian? :) 
 
 ####3(iv) Independence of e401k
 ```{r 3iv}
@@ -263,20 +259,35 @@ summary(mod3ii)
 #summary(mod3iv)
 #oder einfacheres model ohne sq??
 ```
-As shown in the output (mod3ii) we can assume that e401k is independent from gender. We test if $H_0: \beta5 = 0$ in a two-sided test using $\alpha = 0.05$. As the p-value of 0.77 is bigger than 0.05 we cannot reject $H_0$. So, the probability of participating is independet of being male or female. 
+As shown in the output (mod3ii) we can assume that e401k is independent from gender. We test if $H_0: \beta_5 = 0$ in a two-sided test using $\alpha = 0.05$. As the p-value of 0.77 is bigger than 0.05 we cannot reject $H_0$. So, the probability of participating is independet of being male or female. 
 
 Furthermore, the variable income and age are signficant for the model. Therefore, e401k is dependent on these both variables. We could also test these both hypothesis, which are based on the output of model 3ii:
 
 Income:
-$H_0: \beta1 = 0, \beta2 = 0$ (two sided test, $\alpha = 0.05)
+$H_0: \beta_1 = 0, \beta_2 = 0$ (two sided test, $\alpha = 0.05)
 We reject $H_0$ as both p_values < 0.05. 
 
 Age:
-$H_0: \beta3 = 0, \beta4 = 0$ (two sided test, $\alpha = 0.05)
+$H_0: \beta_3 = 0, \beta_4 = 0$ (two sided test, $\alpha = 0.05)
 We reject $H_0$ as both p_values < 0.05. 
 
 -> Man k?nnte bestimmt auch ein Ftest machen?? Aber keine Ahnung :D
 
+
+####3(v) Fitted values
+Wieso machst du bei deinen fitted Values erst die ableitung nach inc? 
+
+$\frac{\delta e401k}{\delta inc}=\beta_1+\beta_2inc = 0.01245 -0.00006165 * inc$  
+The effect of one unit increase in income depends on income itself. Saying we have an income about 30,000 we gain an effect of $-1.83705 = -183\%$. Therefore, the probability of being eligiable for participating is $-0.5063 -1.83705 = -2.34335 = -234\%$ (Das stimmt glaube nicht...)
+&nbsp;
+
+$\frac{\delta log(wage)}{\delta black}=\beta_3+\beta_4age = 0.02651 -0.0003053 * age$  
+The effect for age is similar to variable income as the derivation also depends on the value itself. Saying we look at the age of 40 (median of age), the effect is +0.014298 = 1.4%. 
+
+$40 jaehriger -> Intercept + beta3 * 40 + beta4 * 40^2$ ?? oder?   
+
+$\frac{\delta log(wage)}{\delta black}=\beta_5 = -0.003533$
+Our base model is being a woman. So being a male will increase the probability of eligibilty for participating by -0.3533%. The prediction of a man to participate in this program is $-0.5063 -0.003533 = -0.509833 = -50.98\%$  
 
 ####3(vi) Confusion Matrix (1)
 ```{r 3 vi}
@@ -324,4 +335,4 @@ In total, 2460 people are classfied as eligible.
 68% of all non eligibles are predicted correct.
 
 ???
-
+Welche Frage ist hier offen?
