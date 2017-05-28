@@ -328,7 +328,7 @@ In total, 2460 people are classfied as eligible.
 
 65% of all predicted observations are correctly classified.  
 
-####3(viii)
+####3(viii) Discussion of model fit
 ```{r 3viii}
 #Correctly predicted non_eligibles:
 (TNR = ConfMat[1,1]/sum(ConfMat[,1]))
