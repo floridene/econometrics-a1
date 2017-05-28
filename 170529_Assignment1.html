@@ -553,7 +553,7 @@ F Statistic
 </table>
 <p>The first derivative of <span class="math inline">\(log(price)=\beta_0+\beta_1bdrms+\beta_2log(lotsize)+\beta_3[log(lotsize)]^2+u\)</span>:</p>
 <p><span class="math inline">\(\frac{\delta log(price)}{\delta log(lotsize)}=\beta_2+2\beta_3log(lotsize)\)</span></p>
-<p>In model “mod1c” we add the squared value of llotsize. As it is shown in the derivation above, the effect from lotsize by one unit depends on how many units of lotsize is already there. So if… EXAMPLE!!!</p>
+<p>In model “mod1c” we add the squared value of llotsize. As it is shown in the derivation above, the effect from lotsize by one unit depends on how many units of lotsize is already there.</p>
 </div>
 <div id="d" class="section level4">
 <h4>1(d)</h4>
@@ -1295,10 +1295,18 @@ The effect for age is similar to variable income as the derivation also depends 
 <div id="v-fitted-values" class="section level4">
 <h4>3(v) Fitted Values</h4>
 <p>Because we are working with a categorical y variable and apply a linear model we are expecting to see values outside of the range 0 to 1.</p>
-<pre class="r"><code>-5.063e-01 + 
-mod3ii$coefficients[&quot;age&quot;]</code></pre>
-<pre><code>##        age 
-## -0.4797939</code></pre>
+<pre class="r"><code>inc = 0; age = 10; male = 0
+inc2 = 250000; age2 = 65; male2 = 1
+
+attach(mod3ii)
+(test1 &lt;- coefficients[&quot;(Intercept)&quot;] + coefficients[&quot;inc&quot;] * inc + coefficients[&quot;incsq&quot;] * inc + coefficients[&quot;age&quot;] * age + coefficients[&quot;agesq&quot;] * age+ coefficients[&quot;male&quot;] * male)</code></pre>
+<pre><code>## (Intercept) 
+##  -0.2442808</code></pre>
+<pre class="r"><code>(test2 &lt;- coefficients[&quot;(Intercept)&quot;] + coefficients[&quot;inc&quot;] * inc2 + coefficients[&quot;incsq&quot;] * inc2 + coefficients[&quot;age&quot;] * age2 + coefficients[&quot;agesq&quot;] * age2+ coefficients[&quot;male&quot;] * male2)</code></pre>
+<pre><code>## (Intercept) 
+##    3097.391</code></pre>
+<pre class="r"><code>detach(mod3ii)</code></pre>
+<p>As assumed, for rather extreme examples such as a 10 year old girl without income, the model gives a value outside of the acceptable range. On the other hand, the predicitons go way beyond 1 for eligibility if significant factors such as income or age are increased.</p>
 </div>
 <div id="vi-confusion-matrix-1" class="section level4">
 <h4>3(vi) Confusion Matrix (1)</h4>

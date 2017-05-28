@@ -67,7 +67,7 @@ The first derivative of $log(price)=\beta_0+\beta_1bdrms+\beta_2log(lotsize)+\be
 
 $\frac{\delta log(price)}{\delta log(lotsize)}=\beta_2+2\beta_3log(lotsize)$
 
-In model "mod1c" we add the squared value of llotsize. As it is shown in the derivation above, the effect from lotsize by one unit depends on how many units of lotsize is already there. So if... EXAMPLE!!!
+In model "mod1c" we add the squared value of llotsize. As it is shown in the derivation above, the effect from lotsize by one unit depends on how many units of lotsize is already there.
 
 #### 1(d)
 The unbiased estimator usually implemented is $\frac{SSR}{n-k-1}$.
@@ -249,7 +249,7 @@ summary(mod3ii)
 ```
 
 
-####3(iii + v) Interpretation of coefficients
+####3(iii) Interpretation of coefficients
 The estimates in the summary output for each predictor are the effects on the response e401k if one predictor x is increased by one unit while holding the other predictors fixed (linear model).
 
 $\frac{\delta e401k}{\delta inc}=\beta_1+\beta_2inc = 0.01245 -0.00006165 * inc$  
@@ -284,15 +284,22 @@ We reject $H_0$ as both p_values < 0.05.
 Because we are working with a categorical y variable and apply a linear model we are expecting to see values outside of the range 0 to 1.
 
 ```{r}
--5.063e-01 + 
-mod3ii$coefficients["age"]
+inc = 0; age = 10; male = 0
+inc2 = 250000; age2 = 65; male2 = 1
+
+attach(mod3ii)
+(test1 <- coefficients["(Intercept)"] + coefficients["inc"] * inc + coefficients["incsq"] * inc + coefficients["age"] * age + coefficients["agesq"] * age+ coefficients["male"] * male)
+
+(test2 <- coefficients["(Intercept)"] + coefficients["inc"] * inc2 + coefficients["incsq"] * inc2 + coefficients["age"] * age2 + coefficients["agesq"] * age2+ coefficients["male"] * male2)
+
+detach(mod3ii)
 ```
+As assumed, for rather extreme examples such as a 10 year old girl without income, the model gives a value outside of the acceptable range. On the other hand, the predicitons go way beyond 1 for eligibility if significant factors such as income or age are increased.
 
 ####3(vi) Confusion Matrix (1)
 ```{r 3 vi}
 preds = predict(mod3ii)
 head(preds)
-# we would need a train and test set?? stupid prediction :D
 
 pCutoff = 0.5
 preds_cutoff = as.numeric(preds > pCutoff)
@@ -333,5 +340,4 @@ In total, 2460 people are classfied as eligible.
 58% of all eligibiles are predicted correct.
 68% of all non eligibles are predicted correct.
 
-???
-Welche Frage ist hier offen?
+The model does show high error rates in classification which we cannot accept because it is not successful at reducing either Type-I or Type-II errors significantly. The mease of correct predictions shows that model fit is poor.
