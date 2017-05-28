@@ -1,6 +1,6 @@
 ---
 title: "Econometrics BSEL ST 2017 Assignment 1"
-author: "Vera Weidmann, Marvin KÃ¶nig, Sebastian Seck"
+author: "Vera Weidmann, Marvin König, Sebastian Seck"
 date: "submission to Prof. Qari"
 output:
   html_document:
@@ -42,7 +42,7 @@ summary(mod1b)
 The summary provides us with an R-Squared of 40.13% - this means that 40% of deviation in (log-) price can be explained by the predictors chosen. We are also provided with an adjusted R-squared, which is adjusted not to consider the count of variables used for the model.
 n can be derived from the degrees of freedom: $DF = n-k-1 \Leftrightarrow 85 = 88-2-1$ From this formula we can easily deduct the number of observations n, which is 88.
 
-If we consider that bdrms and lotsize is equal to 0, the price is the value of the intercept: 2.95. The model isa log-level-model. This means, an increase of one predictor by holding the others fixed leads to an percentage increase of the response varible (log-price).
+If we consider that bdrms and lotsize is equal to 0, the price is the value of the intercept: 2.95. The model is a log-level-model. This means, an increase of one predictor by holding the others fixed leads to an percentage increase of the response varible (log-price).
 So, if bdrms is increasing by one extra room while the other predictor lotsize is held fixed, the price increases by 14%. For one increase in log(lotsize) the price rise by 24.4%.
 
 $\frac{\delta log(price)}{\delta bdrms}=\beta_1$
@@ -81,7 +81,7 @@ The two suggested variance estimates for mod1c are:
 ```
 There are no large differences because the bias of the first variance estimate is diminished by a rather large n.
 
-In order to compare this value with out model output, we take the square root of the calculated error variance to compare it with the Residual Standard Error output in our model - which are printed out for you in the following:
+In order to compare this value with our model output, we take the square root of the calculated error variance to compare it with the Residual Standard Error output in our model - which are printed out for you in the following:
 ```{r 1d-2}
 sqrt(sum(mod1c$residuals^2)/(nrow(hprice)-1))
 sqrt(sum(mod1c$residuals^2)/(nrow(hprice)-4))
@@ -221,7 +221,7 @@ The second group (not_married & black) is represented by the coefficient $\beta2
 The coefficient $\beta3 = 0.188915$ presents the third group: being married and not being black. 
 Being married and black is represented by $\beta2 + \beta3 + \beta8$. 
 
-Therefore, the difference between the second and the forth group are  $\beta2 + \beta8 = -0.24 + 0.06 = -0.18$. (Same as in mod2a)
+Therefore, the difference between the second and the forth group are  $\beta2 + \beta8 = -0.24 + 0.06 = -0.18$.
 
 ##Task 3
 ```{r}
