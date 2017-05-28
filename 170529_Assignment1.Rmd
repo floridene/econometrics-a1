@@ -70,16 +70,22 @@ $\frac{\delta log(price)}{\delta log(lotsize)}=\beta_2+2\beta_3log(lotsize)$
 In model "mod1c" we add the squared value of llotsize. As it is shown in the derivation above, the effect from lotsize by one unit depends on how many units of lotsize is already there. So if... EXAMPLE!!!
 
 #### 1(d)
-The unbiased estimator usually implemented is $\frac{SSR}{n-2}$.
+The unbiased estimator usually implemented is $\frac{SSR}{n-k-1}$.
 Generally, unbiasedness means that there is an average trend within repeated samples. Unbiasedness in this case means that the restrictions given by the OLS first order conditions are respected - which means an adjustment to the degrees of freedom.
 
 
 The two suggested variance estimates for mod1c are: 
 ```{r 1d}
 (sum(mod1c$residuals^2)/(nrow(hprice)-1))
-(sum(mod1c$residuals^2)/(nrow(hprice)-2))
+(sum(mod1c$residuals^2)/(nrow(hprice)-4))
 ```
 There are no large differences because the bias of the first variance estimate is diminished by a rather large n.
+
+In order to compare this value with out model output, we take the square root of the calculated error variance to compare it with the Residual Standard Error output in our model - which are printed out for you in the following:
+```{r 1d-2}
+sqrt(sum(mod1c$residuals^2)/(nrow(hprice)-1))
+sqrt(sum(mod1c$residuals^2)/(nrow(hprice)-4))
+```
 
 
 #### 1(e)
@@ -159,12 +165,9 @@ k= 9
 Substituted with our values:
 $F = \frac{(123.8185 - 123.421) / 2}{123.421 / (935 - 9 - 1)} = 1.489806$
 
-We cannot reject our H0, because F < 1.89 and lies inside the 95% Interval. This means $\beta8$ and $\beta9$ do not provide additional explanation power.
-This is also seen in the output of model 2b. The p-values of these both coefficients are greater than $\alpha = 0.05$. So, exper_sq and tenure_sq might not be signifcant for our model.
+We cannot reject our H0, because $F < 1.89$ and lies inside the 95% Interval. This means $\beta_8$ and $\beta_9$ do not provide additional explanation power.
 
--> beta9 ist gerade noch so significant bei onesided test 5% = 0.09/2
-
-Furthermore, we can calcualte the Anova of these both models. The result underlines the previous expanation of the non-rejection of H0.
+Furthermore, we can calcualte the Anova of these both models. The result underlines the previous explanation of the non-rejection of $H_0$.
 
 ```{r}
 anova(mod2a,mod2b)
@@ -178,8 +181,8 @@ summary(mod2c)
 
 Our null hypothesis is that the interaction term between education and black has no effect on the model response. 
 
-$H0: \beta8 =0$
-$H1: \beta8 \neq 0$
+$H0: \beta_8 =0$  
+$H1: \beta_8 \neq 0$
 
 Decision Rule: Reject H0 if |t| > 1.64   ($\alpha = 0.1 $, two sided test)
 
@@ -190,7 +193,7 @@ As t(educ:black) is |-1.121| < 1.64 (as well as: p-value of 26% > 10%), we canno
 stargazer(mod2a,mod2c, title = "Comparison of models mod2a and mod2c", type="html", model.names = FALSE,column.labels = c("mod2a", "mod2c"), column.separate = c(1,1), style = "qje")
 ```
 
-In model 2c we can see that the black coefficient is positive now. But this variable interacts with eduaction. This means being black causes an effect of +0.09-0.023*educ. So the wage of a black person depends in this case of his education. Model 2a do not integrate the interaction term. Therefore, being black decrease the persons wage by 19%.
+In model 2c we can see that the black coefficient is positive now. But this variable interacts with eduaction. This means being black causes an effect of $+0.09-0.023*educ$. So the wage of a black person depends in this case of his education. Model 2a do not integrate the interaction term. Therefore, being black decrease the persons wage by 19%.
 
 $\frac{\delta log(wage)}{\delta black}=\beta_2+\beta_1educ$
 
@@ -245,49 +248,45 @@ mod3ii <- lm(e401k ~ inc + incsq + age + agesq + male, data = ksubs)
 summary(mod3ii)
 ```
 
-####3(iii) Interpretation of coefficients
-As mentioned beforehand, through running a linear model, we obtain probabilities less than 0 or greater than 1.
 
+####3(iii + v) Interpretation of coefficients
 The estimates in the summary output for each predictor are the effects on the response e401k if one predictor x is increased by one unit while holding the other predictors fixed (linear model).
+
+$\frac{\delta e401k}{\delta inc}=\beta_1+\beta_2inc = 0.01245 -0.00006165 * inc$  
+The effect of one unit increase in income depends on income itself. Saying we have an income about 30,000 we gain an effect of $-1.83705 = -183\%$.
+&nbsp;
+  
+$\frac{\delta e401k}{\delta age}=\beta_3+\beta_4age = 0.02651 -0.0003053 * age$  
+The effect for age is similar to variable income as the derivation also depends on the value itself. Saying we look at the age of 40 (median of age), the effect is $0.014298 = 1.4\%$. 
+&nbsp;
+  
+$\frac{\delta e401k}{\delta male}=\beta_5 = -0.003533$
+Our base model is being a woman. So being a male will increase the probability of eligibilty for participating by $-0.3533\%$.
 
 
 ####3(iv) Independence of e401k
 ```{r 3iv}
 summary(mod3ii)
-
-#mod3iv <- lm(e401k ~ inc + age + male, data = ksubs)
-#summary(mod3iv)
-#oder einfacheres model ohne sq??
 ```
 As shown in the output (mod3ii) we can assume that e401k is independent from gender. We test if $H_0: \beta_5 = 0$ in a two-sided test using $\alpha = 0.05$. As the p-value of 0.77 is bigger than 0.05 we cannot reject $H_0$. So, the probability of participating is independet of being male or female. 
 
 Furthermore, the variable income and age are signficant for the model. Therefore, e401k is dependent on these both variables. We could also test these both hypothesis, which are based on the output of model 3ii:
 
 Income:
-$H_0: \beta_1 = 0, \beta_2 = 0$ (two sided test, $\alpha = 0.05)
+$H_0: \beta_1 = 0, \beta_2 = 0$ (two sided test, $\alpha = 0.05$)
 We reject $H_0$ as both p_values < 0.05. 
 
 Age:
-$H_0: \beta_3 = 0, \beta_4 = 0$ (two sided test, $\alpha = 0.05)
-We reject $H_0$ as both p_values < 0.05. 
+$H_0: \beta_3 = 0, \beta_4 = 0$ (two sided test, $\alpha = 0.05$)
+We reject $H_0$ as both p_values < 0.05.
 
--> Man k?nnte bestimmt auch ein Ftest machen?? Aber keine Ahnung :D
+####3(v) Fitted Values
+Because we are working with a categorical y variable and apply a linear model we are expecting to see values outside of the range 0 to 1.
 
-
-####3(v) Fitted values
-Wieso machst du bei deinen fitted Values erst die ableitung nach inc? 
-
-$\frac{\delta e401k}{\delta inc}=\beta_1+\beta_2inc = 0.01245 -0.00006165 * inc$  
-The effect of one unit increase in income depends on income itself. Saying we have an income about 30,000 we gain an effect of $-1.83705 = -183\%$. Therefore, the probability of being eligiable for participating is $-0.5063 -1.83705 = -2.34335 = -234\%$ (Das stimmt glaube nicht...)
-&nbsp;
-
-$\frac{\delta log(wage)}{\delta black}=\beta_3+\beta_4age = 0.02651 -0.0003053 * age$  
-The effect for age is similar to variable income as the derivation also depends on the value itself. Saying we look at the age of 40 (median of age), the effect is +0.014298 = 1.4%. 
-
-$40 jaehriger -> Intercept + beta3 * 40 + beta4 * 40^2$ ?? oder?   
-
-$\frac{\delta log(wage)}{\delta black}=\beta_5 = -0.003533$
-Our base model is being a woman. So being a male will increase the probability of eligibilty for participating by -0.3533%. The prediction of a man to participate in this program is $-0.5063 -0.003533 = -0.509833 = -50.98\%$  
+```{r}
+-5.063e-01 + 
+mod3ii$coefficients["age"]
+```
 
 ####3(vi) Confusion Matrix (1)
 ```{r 3 vi}
