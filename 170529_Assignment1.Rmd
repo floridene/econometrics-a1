@@ -134,7 +134,7 @@ Our null hypothesis is that both additional variables have no explanatory power.
 $H_0: \beta_8=0; \beta_9=0$
 $H_1: \beta_8>0; \beta_9>0$
 
-Dicision Rule:
+Decision Rule:
 Reject H0 if $F > 1.89$ ($\alpha = 0.05$, one sided test) 
 
 In R we also can calculate the critical value instead of using the table of the F-distributions:
@@ -179,7 +179,7 @@ summary(mod2c)
 Our null hypothesis is that the interaction term between education and black has no effect on the model response. 
 
 $H0: \beta8 =0$
-$H1: \beta8 != 0$ # sebastian, please fix unequal sign!!! :) 
+$H1: \beta8 \neq 0$
 
 Decision Rule: Reject H0 if |t| > 1.64   ($\alpha = 0.1 $, two sided test)
 
@@ -194,7 +194,7 @@ In model 2c we can see that the black coefficient is positive now. But this vari
 
 $\frac{\delta log(wage)}{\delta black}=\beta_2+\beta_1educ$
 
-However, the standard error for black in model 2c is quite big and we can't verify a significance for this coefficient anymore. As already seen in the hypothesis test above ($H0: \beta8 = 0 $), education also does not depend on the variable black and the model 2a might be the one which reflects the population in a better way. 
+However, the standard error for black in model 2c is quite big and we can't verify a significance for this coefficient anymore. As already seen in the hypothesis test above ($H0: \beta8 = 0$), education also does not depend on the variable black and the model 2a might be the one which reflects the population in a better way.
 
 #### 2(c) - ii
 ```{r 2cii}
