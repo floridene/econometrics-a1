@@ -42,14 +42,14 @@ summary(mod1b)
 The summary provides us with an R-Squared of 40.13% - this means that 40% of deviation in (log-) price can be explained by the predictors chosen. We are also provided with an adjusted R-squared, which is adjusted not to consider the count of variables used for the model.
 n can be derived from the degrees of freedom: $DF = n-k-1 \Leftrightarrow 85 = 88-2-1$ From this formula we can easily deduct the number of observations n, which is 88.
 
-If we consider that bdrms and lotsize is equal to 0, the price is the value of the intercept: 2.95. The model is a log-level-model. This means, an increase of one predictor by holding the others fixed leads to an percentage increase of the response varible (log-price).
+If we consider that bdrms and lotsize is equal to 0, the price is the value of the intercept: 2.95. The model is a log-level-model. This means, an increase of one predictor by holding the others fixed leads to a percentage increase of the response variable (log-price).
 So, if bdrms is increasing by one extra room while the other predictor lotsize is held fixed, the price increases by 14%. For one increase in log(lotsize) the price rise by 24.4%.
 
 $\frac{\delta log(price)}{\delta bdrms}=\beta_1$
 $\frac{\delta log(price)}{\delta log(lotsize)}=\beta_2$
 
 Furthermore, both coefficients are significant. The p-vales of both coefficients are one indicator for the significance. As they are lower than $\alpha = 5%$ (and $\alpha = 1%$), we can reject that both predictors has no effect on the response price (H0: $\beta_1 = 0, \beta_2  =0$) in a two-sided test.
-Likewise we could look at the t-values for signifcance. In R the significance codes give also a clarification about the coef. significance.
+Likewise we could look at the t-values for significance. In R the significance codes give also a clarification about the coef. significance.
 
 #### 1(c) - i Model estimation & interpretation
 ```{r 1ci}
@@ -81,7 +81,7 @@ The two suggested variance estimates for mod1c are:
 ```
 There are no large differences because the bias of the first variance estimate is diminished by a rather large n.
 
-In order to compare this value with our model output, we take the square root of the calculated error variance to compare it with the Residual Standard Error output in our model - which are printed out for you in the following:
+In order to compare this value with our model output, we take the square root of the calculated error variance to compare it with the Residual Standard Error output in our model - which is printed out for you in the following:
 ```{r 1d-2}
 sqrt(sum(mod1c$residuals^2)/(nrow(hprice)-1))
 sqrt(sum(mod1c$residuals^2)/(nrow(hprice)-4))
@@ -167,7 +167,7 @@ $F = \frac{(123.8185 - 123.421) / 2}{123.421 / (935 - 9 - 1)} = 1.489806$
 
 We cannot reject our H0, because $F < 1.89$ and lies inside the 95% Interval. This means $\beta_8$ and $\beta_9$ do not provide additional explanation power.
 
-Furthermore, we can calcualte the Anova of these both models. The result underlines the previous explanation of the non-rejection of $H_0$.
+Furthermore, we can calculate the Anova of these both models. The result underlines the previous explanation of the non-rejection of $H_0$.
 
 ```{r}
 anova(mod2a,mod2b)
@@ -193,11 +193,11 @@ As t(educ:black) is |-1.121| < 1.64 (as well as: $p-value \space of \space 26\% 
 stargazer(mod2a,mod2c, title = "Comparison of models mod2a and mod2c", type="html", model.names = FALSE,column.labels = c("mod2a", "mod2c"), column.separate = c(1,1), style = "qje")
 ```
 
-In model 2c we can see that the black coefficient is positive now. But this variable interacts with eduaction. This means being black causes an effect of $+0.09-0.023*educ$. So the wage of a black person depends in this case of his education. Model 2a do not integrate the interaction term. Therefore, being black decrease the persons wage by 19%.
+In model 2c we can see that the black coefficient is positive now. But this variable interacts with education. This means being black causes an effect of $+0.09-0.023*educ$. So the wage of a black person depends in this case of his education. Model 2a do not integrate the interaction term. Therefore, being black decrease the persons wage by 19%.
 
 $\frac{\delta log(wage)}{\delta black}=\beta_2+\beta_1educ$
 
-However, the standard error for black in model 2c is quite big and we can't verify a significance for this coefficient anymore. As already seen in the hypothesis test above ($H0: \beta8 = 0$), education also does not depend on the variable black and the model 2a might be the one which reflects the population in a better way.
+However, the standard error for black in model 2c is quite big and we can't verify significance for this coefficient anymore. As already seen in the hypothesis test above ($H0: \beta8 = 0$), education also does not depend on the variable black and the model 2a might be the one which reflects the population in a better way.
 
 #### 2(c) - ii Model modification
 ```{r 2cii}
@@ -208,7 +208,7 @@ mod2cii <- lm(lwage ~ educ_c*black + exper + tenure + married + south + urban, d
 summary(mod2cii)
 ```
 
-The value we suggest is equal to the mean of education (13.5). Interpreting models with interactions can be tricky due to the fact that $\beta2$ (coefficient of black) just shows the partical effect of being black when his eduaction = 0. While using the equation black*(educ-c) we centring the variables around the mean value of education. 
+The value we suggest is equal to the mean of education (13.5). Interpreting models with interactions can be tricky due to the fact that $\beta2$ (coefficient of black) just shows the partial effect of being black when his education = 0. While using the equation black*(educ-c) we centering the variables around the mean value of education. 
 
 #### 2(d) Model interpretation
 ```{r 2d}
@@ -237,7 +237,7 @@ Just looking at the data "ksubs" reveals that our response variable e401k is a b
 n <- nrow(ksubs)
 (Fractions <- x/n)
 ```
-In our data we have 5638 people (61%) which are not eligible for participating in a 401(k) plan, and 3637 people (39%) which are eligible for participating. 
+In our data we have 5638 people (61%) who are not eligible for participating in a 401(k) plan, and 3637 people (39%) which are eligible for participating. 
 
 ####3(ii): Linear Model
 
@@ -260,16 +260,16 @@ The effect for age is similar to variable income as the derivation also depends 
 &nbsp;
   
 $\frac{\delta e401k}{\delta male}=\beta_5 = -0.003533$
-Our base model is being a woman. So being a male will increase the probability of eligibilty for participating by $-0.3533\%$.
+Our base model is being a woman. So being a male will increase the probability of eligibility for participating by $-0.3533\%$.
 
 
 ####3(iv) Independence of e401k
 ```{r 3iv}
 summary(mod3ii)
 ```
-As shown in the output (mod3ii) we can assume that e401k is independent from gender. We test if $H_0: \beta_5 = 0$ in a two-sided test using $\alpha = 0.05$. As the p-value of 0.77 is bigger than 0.05 we cannot reject $H_0$. So, the probability of participating is independet of being male or female. 
+As shown in the output (mod3ii) we can assume that e401k is independent from gender. We test if $H_0: \beta_5 = 0$ in a two-sided test using $\alpha = 0.05$. As the p-value of 0.77 is bigger than 0.05 we cannot reject $H_0$. So, the probability of participating is independent of being male or female. 
 
-Furthermore, the variable income and age are signficant for the model. Therefore, e401k is dependent on these both variables. We could also test these both hypothesis, which are based on the output of model 3ii:
+Furthermore, the variable income and age are signficant for the model. Therefore, e401k is dependent on these both variables. We could also test these both hypotheses, which are based on the output of model 3ii:
 
 Income:
 $H_0: \beta_1 = 0, \beta_2 = 0$ (two sided test, $\alpha = 0.05$)
@@ -293,7 +293,7 @@ attach(mod3ii)
 
 detach(mod3ii)
 ```
-As assumed, for rather extreme examples such as a 10 year old girl without income, the model gives a value outside of the acceptable range. On the other hand, the predicitons go way beyond 1 for eligibility if significant factors such as income or age are increased.
+As assumed, for rather extreme examples such as a 10 year old girl without income, the model gives a value outside of the acceptable range. On the other hand, the predictions go way beyond 1 for eligibility if significant factors such as income or age are increased.
 
 ####3(vi) Confusion Matrix (1)
 ```{r 3 vi}
@@ -317,7 +317,7 @@ False Negatives = 2208 eligible people are classified as non eligible.
 (TP = sum(ConfMat[,2]))
 ```
 
-In total, 2460 people are classfied as eligible.
+In total, 2460 people are classified as eligible.
 
 ####3(vii) Confusion Matrix (2)
 ```{r 3vii}
