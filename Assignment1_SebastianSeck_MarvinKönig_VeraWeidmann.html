@@ -9,7 +9,7 @@
 <meta name="generator" content="pandoc" />
 
 
-<meta name="author" content="Vera Weidmann, Marvin König, Sebastian Seck" />
+<meta name="author" content="Vera Weidmann, Marvin Koenig, Sebastian Seck" />
 
 
 <title>Econometrics BSEL ST 2017 Assignment 1</title>
@@ -215,7 +215,7 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">Econometrics BSEL ST 2017 Assignment 1</h1>
-<h4 class="author"><em>Vera Weidmann, Marvin König, Sebastian Seck</em></h4>
+<h4 class="author"><em>Vera Weidmann, Marvin Koenig, Sebastian Seck</em></h4>
 <h4 class="date"><em>submission to Prof. Qari</em></h4>
 
 </div>
@@ -256,7 +256,7 @@ ksubs &lt;- read.dta(&quot;401ksubs.dta&quot;)</code></pre>
 ##  Mean   :293.5   Mean   :3.568   Mean   : 9020  
 ##  3rd Qu.:326.2   3rd Qu.:4.000   3rd Qu.: 8583  
 ##  Max.   :725.0   Max.   :7.000   Max.   :92681</code></pre>
-<p>The sample mean of price is 293.5. The summary statistics can be found above.</p>
+<p>The sample mean of price is <span class="math inline">\(293.5\)</span>. The summary statistics are found above.</p>
 </div>
 <div id="b-model-estimation-interpretation" class="section level4">
 <h4>1(b) Model estimation &amp; interpretation</h4>
@@ -281,10 +281,10 @@ summary(mod1b)</code></pre>
 ## Residual standard error: 0.2376 on 85 degrees of freedom
 ## Multiple R-squared:  0.4013, Adjusted R-squared:  0.3872 
 ## F-statistic: 28.49 on 2 and 85 DF,  p-value: 3.399e-10</code></pre>
-<p>The summary provides us with an R-Squared of 40.13% - this means that 40% of deviation in (log-) price can be explained by the predictors chosen. We are also provided with an adjusted R-squared, which is adjusted not to consider the count of variables used for the model. n can be derived from the degrees of freedom: <span class="math inline">\(DF = n-k-1 \Leftrightarrow 85 = 88-2-1\)</span> From this formula we can easily deduct the number of observations n, which is 88.</p>
-<p>If we consider that bdrms and lotsize is equal to 0, the price is the value of the intercept: 2.95. The model is a log-level-model. This means, an increase of one predictor by holding the others fixed leads to a percentage increase of the response variable (log-price). So, if bdrms is increasing by one extra room while the other predictor lotsize is held fixed, the price increases by 14%. For one increase in log(lotsize) the price rise by 24.4%.</p>
+<p>The summary provides us with an R-Squared of <span class="math inline">\(40.13\%\)</span> - this means that <span class="math inline">\(40%\)</span> of deviation in <span class="math inline">\((log-) price\)</span> can be explained by the predictors chosen. We are also provided with an adjusted R-squared, which is adjusted not to consider the count of variables used for the model. <span class="math inline">\(n\)</span> can be derived from the degrees of freedom: <span class="math inline">\(DF = n-k-1 \Leftrightarrow 85 = 88-2-1\)</span> From this formula we can easily deduct the number of observations <span class="math inline">\(n\)</span>, which is <span class="math inline">\(88\)</span>.</p>
+<p>If we consider that <span class="math inline">\(bdrms\)</span> and <span class="math inline">\(lotsize\)</span> is equal to <span class="math inline">\(0\)</span>, the price is the value of the intercept: <span class="math inline">\(2.95\)</span>. The model is a log-level-model. This means, an increase of one predictor by holding the others fixed leads to a percentage increase of the response variable (<span class="math inline">\(log-price\)</span>). So, if <span class="math inline">\(bdrms\)</span> is increasing by one extra room while the other predictor <span class="math inline">\(lotsize\)</span> is held fixed, the price increases by <span class="math inline">\(14\%\)</span>. For a one-increase in <span class="math inline">\(log(lotsize)\)</span> the price rises by <span class="math inline">\(24.4\%\)</span>.</p>
 <p><span class="math inline">\(\frac{\delta log(price)}{\delta bdrms}=\beta_1\)</span> <span class="math inline">\(\frac{\delta log(price)}{\delta log(lotsize)}=\beta_2\)</span></p>
-<p>Furthermore, both coefficients are significant. The p-vales of both coefficients are one indicator for the significance. As they are lower than <span class="math inline">\(\alpha = 5%\)</span> (and <span class="math inline">\(\alpha = 1%\)</span>), we can reject that both predictors has no effect on the response price (H0: <span class="math inline">\(\beta_1 = 0, \beta_2 =0\)</span>) in a two-sided test. Likewise we could look at the t-values for significance. In R the significance codes give also a clarification about the coef. significance.</p>
+<p>Furthermore, both coefficients are significant. The p-values of both coefficients are one indicator for the significance. As they are lower than <span class="math inline">\(\alpha = 5%\)</span> (and <span class="math inline">\(\alpha = 1%\)</span>), we can reject that both predictors have no effect on the response price (<span class="math inline">\(H_0: \space \beta_1 = 0, \beta_2 =0\)</span>) in a two-sided test. Likewise, we could look at the t-values for significance. In R the significance codes also give clarification over the coefficients’ significance.</p>
 </div>
 <div id="c---i-model-estimation-interpretation" class="section level4">
 <h4>1(c) - i Model estimation &amp; interpretation</h4>
@@ -551,9 +551,8 @@ F Statistic
 </td>
 </tr>
 </table>
-<p>The first derivative of <span class="math inline">\(log(price)=\beta_0+\beta_1bdrms+\beta_2log(lotsize)+\beta_3[log(lotsize)]^2+u\)</span>:</p>
-<p><span class="math inline">\(\frac{\delta log(price)}{\delta log(lotsize)}=\beta_2+2\beta_3log(lotsize)\)</span></p>
-<p>In model “mod1c” we add the squared value of llotsize. As it is shown in the derivation above, the effect from lotsize by one unit depends on how many units of lotsize is already there.</p>
+<p><br> The first derivative of <span class="math inline">\(log(price)=\beta_0+\beta_1bdrms+\beta_2log(lotsize)+\beta_3[log(lotsize)]^2+u\)</span>:<br />
+<span class="math inline">\(\frac{\delta log(price)}{\delta log(lotsize)}=\beta_2+2\beta_3log(lotsize)\)</span> <br> In model “mod1c” we add the squared value of <span class="math inline">\(llotsize\)</span>. As it is shown in the derivation above, the effect from <span class="math inline">\(lotsize\)</span> by one unit depends on how many units of <span class="math inline">\(lotsize\)</span> are already there.</p>
 </div>
 <div id="d-error-variance-estimator" class="section level4">
 <h4>1(d) Error variance estimator</h4>
@@ -563,7 +562,7 @@ F Statistic
 <pre><code>## [1] 0.05512925</code></pre>
 <pre class="r"><code>(sum(mod1c$residuals^2)/(nrow(hprice)-4))</code></pre>
 <pre><code>## [1] 0.05709815</code></pre>
-<p>There are no large differences because the bias of the first variance estimate is diminished by a rather large n.</p>
+<p>There are no large differences because the bias of the first variance estimate is diminished by a rather large <span class="math inline">\(n\)</span>.</p>
 <p>In order to compare this value with our model output, we take the square root of the calculated error variance to compare it with the Residual Standard Error output in our model - which is printed out for you in the following:</p>
 <pre class="r"><code>sqrt(sum(mod1c$residuals^2)/(nrow(hprice)-1))</code></pre>
 <pre><code>## [1] 0.2347962</code></pre>
@@ -572,10 +571,9 @@ F Statistic
 </div>
 <div id="e-standard-error" class="section level4">
 <h4>1(e) Standard error</h4>
-<p>At first we look at the variance of the error term of model 2, for which we square the Root MSE. In order to calculate the standard error of llotsize and bdrms we are using the SST and R-squared from the respective model outputs, where the variables are the dependent variable. We take the square root in order to arrive at the standard error instead of the variance.</p>
-<p>In detail, this is how <span class="math inline">\(SE_{\beta_2}\)</span> (llotsize) is calculated:<br />
-<span class="math inline">\(SE_{\beta_2}=\sqrt{\frac{\sigma^2}{SST_2(1-R^2_2)}} = \sqrt{\frac{0.23^2}{25.75*(1-0.9939)}}=0.604\)</span></p>
-<p>In detail, this is how <span class="math inline">\(SE_{\beta_1}\)</span> (bdrms) is calculated:<br />
+<p>At first we look at the variance of the error term of model 2, for which we square the Root MSE. In order to calculate the standard error of <span class="math inline">\(llotsize\)</span> and <span class="math inline">\(bdrms\)</span> we are using the SST and R-squared from the respective model outputs, where the variables are the dependent variable. We take the square root in order to arrive at the standard error instead of the variance.</p>
+<p>In detail, this is how <span class="math inline">\(SE_{\beta_2}\)</span> (<span class="math inline">\(llotsize\)</span>) is calculated:<br />
+<span class="math inline">\(SE_{\beta_2}=\sqrt{\frac{\sigma^2}{SST_2(1-R^2_2)}} = \sqrt{\frac{0.23^2}{25.75*(1-0.9939)}}=0.604\)</span> <br> In detail, this is how <span class="math inline">\(SE_{\beta_1}\)</span> (<span class="math inline">\(bdrms\)</span>) is calculated:<br />
 <span class="math inline">\(SE_{\beta_1}=\sqrt{\frac{\sigma^2}{SST_1(1-R^2_1)}} = \sqrt{\frac{0.23^2}{61.59*(1-0.0289)}}=0.0308\)</span></p>
 </div>
 </div>
@@ -635,7 +633,7 @@ CI2 = x + SE * 1.64
 (salary_black &lt;-cbind(CI1, CI2))</code></pre>
 <pre><code>##              CI1        CI2
 ## black -0.2501232 -0.1265766</code></pre>
-<p>The salary difference can be found from the coefficient <span class="math inline">\(\beta_5\)</span> in model mod2a, it is -0.1884. As the CI is not included in R’s standard model output, we calculated it manually.</p>
+<p>The salary difference can be found from the coefficient <span class="math inline">\(\beta_5\)</span> in model mod2a, it is <span class="math inline">\(-0.1884\)</span>. As the CI is not included in R’s standard model output, we calculated it manually.</p>
 </div>
 <div id="b-model-selection" class="section level4">
 <h4>2(b) Model selection</h4>
@@ -681,8 +679,8 @@ SSRr</code></pre>
 <pre class="r"><code>SSRur</code></pre>
 <pre><code>## [1] 123.421</code></pre>
 <p>Our null hypothesis is that both additional variables have no explanatory power. So, model 2a (the smaller one) would be better than model 2b.</p>
-<p><span class="math inline">\(H_0: \beta_8=0; \beta_9=0\)</span> <span class="math inline">\(H_1: \beta_8&gt;0; \beta_9&gt;0\)</span></p>
-<p>Decision Rule: Reject H0 if <span class="math inline">\(F &gt; 1.89\)</span> (<span class="math inline">\(\alpha = 0.05\)</span>, one sided test)</p>
+<p><span class="math inline">\(H_0: \beta_8=0; \beta_9=0\)</span><br />
+<span class="math inline">\(H_1: \beta_8&gt;0; \beta_9&gt;0\)</span> <br> Decision Rule: Reject <span class="math inline">\(H_0\)</span> if <span class="math inline">\(F &gt; 1.89\)</span> (<span class="math inline">\(\alpha = 0.05\)</span>, one sided test)</p>
 <p>In R we also can calculate the critical value instead of using the table of the F-distributions:</p>
 <pre class="r"><code>#(1-/alpha, k, n-k-1)
 qf(0.95, 9, 925)</code></pre>
@@ -696,8 +694,8 @@ k= 9
 (F_test=((SSRr-SSRur) / q)/(SSRur / (n-k-1)))</code></pre>
 <pre><code>## [1] 1.489806</code></pre>
 <p>Substituted with our values: <span class="math inline">\(F = \frac{(123.8185 - 123.421) / 2}{123.421 / (935 - 9 - 1)} = 1.489806\)</span></p>
-<p>We cannot reject our H0, because <span class="math inline">\(F &lt; 1.89\)</span> and lies inside the 95% Interval. This means <span class="math inline">\(\beta_8\)</span> and <span class="math inline">\(\beta_9\)</span> do not provide additional explanation power.</p>
-<p>Furthermore, we can calculate the Anova of these both models. The result underlines the previous explanation of the non-rejection of <span class="math inline">\(H_0\)</span>.</p>
+<p>We cannot reject our <span class="math inline">\(H_0\)</span>, because <span class="math inline">\(F &lt; 1.89\)</span> and lies inside the <span class="math inline">\(95\%\)</span> Interval. This means <span class="math inline">\(\beta_8\)</span> and <span class="math inline">\(\beta_9\)</span> do not provide additional explanation power.</p>
+<p>Furthermore, we can calculate the Anova of both these models. The result underlines the previous explanation of the non-rejection of <span class="math inline">\(H_0\)</span>.</p>
 <pre class="r"><code>anova(mod2a,mod2b)</code></pre>
 <pre><code>## Analysis of Variance Table
 ## 
@@ -738,11 +736,11 @@ summary(mod2c)</code></pre>
 ## Residual standard error: 0.3654 on 926 degrees of freedom
 ## Multiple R-squared:  0.2536, Adjusted R-squared:  0.2471 
 ## F-statistic: 39.32 on 8 and 926 DF,  p-value: &lt; 2.2e-16</code></pre>
-<p>Our null hypothesis is that the interaction term between education and black has no effect on the model response.</p>
+<p>Our null hypothesis is that the interaction term between <span class="math inline">\(education\)</span> and <span class="math inline">\(black\)</span> has no effect on the model response.</p>
 <p><span class="math inline">\(H0: \beta_8 =0\)</span><br />
 <span class="math inline">\(H1: \beta_8 \neq 0\)</span></p>
-<p>Decision Rule: Reject H0 if |t| &gt; 1.64 (<span class="math inline">\(\alpha = 0.1\)</span>, two sided test)</p>
-<p>As t(educ:black) is |-1.121| &lt; 1.64 (as well as: <span class="math inline">\(p-value \space of \space 26\% &gt; 10\%\)</span>), we cannot reject H0. The interaction term between education and black might not have an effect on the model. So, education might not depend on race.</p>
+<p>Decision Rule: Reject <span class="math inline">\(H_0\)</span> if <span class="math inline">\(|t| &gt; 1.6\)</span> (<span class="math inline">\(\alpha = 0.1\)</span>, two sided test)</p>
+<p>As <code>t(educ:black)</code> is <span class="math inline">\(|-1.121| &lt; 1.64\)</span> (as well as: <span class="math inline">\(p-value \space of \space 26\% &gt; 10\%\)</span>), we cannot reject <span class="math inline">\(H_0\)</span>. The interaction term between education and black might not have an effect on the model. Thus, education might not depend on race.</p>
 </div>
 <div id="c---i-coefficient-interpretation" class="section level4">
 <h4>2(c) - i Coefficient interpretation</h4>
@@ -1127,9 +1125,9 @@ F Statistic
 </td>
 </tr>
 </table>
-<p>In model 2c we can see that the black coefficient is positive now. But this variable interacts with education. This means being black causes an effect of <span class="math inline">\(+0.09-0.023*educ\)</span>. So the wage of a black person depends in this case of his education. Model 2a do not integrate the interaction term. Therefore, being black decrease the persons wage by 19%.</p>
+<p>In model 2c we can see that the black coefficient is positive now. However, this variable interacts with education. This means being black causes an effect of <span class="math inline">\(+0.09-0.023*educ\)</span>. So the wage of a black person depends in this case of his education. Model 2a does not integrate the interaction term. Therefore, being black decreases the persons wage by <span class="math inline">\(19\%\)</span>.</p>
 <p><span class="math inline">\(\frac{\delta log(wage)}{\delta black}=\beta_2+\beta_1educ\)</span></p>
-<p>However, the standard error for black in model 2c is quite big and we can’t verify significance for this coefficient anymore. As already seen in the hypothesis test above (<span class="math inline">\(H0: \beta8 = 0\)</span>), education also does not depend on the variable black and the model 2a might be the one which reflects the population in a better way.</p>
+<p>However, the standard error for black in model 2c is quite large and we can’t verify significance for this coefficient anymore. As already seen in the hypothesis test above (<span class="math inline">\(H_0: \beta8 = 0\)</span>), education also does not depend on the variable black and the model 2a might be the one which reflects the population in a better way.</p>
 </div>
 <div id="c---ii-model-modification" class="section level4">
 <h4>2(c) - ii Model modification</h4>
@@ -1165,7 +1163,7 @@ summary(mod2cii)</code></pre>
 ## Residual standard error: 0.3654 on 926 degrees of freedom
 ## Multiple R-squared:  0.2536, Adjusted R-squared:  0.2471 
 ## F-statistic: 39.32 on 8 and 926 DF,  p-value: &lt; 2.2e-16</code></pre>
-<p>The value we suggest is equal to the mean of education (13.5). Interpreting models with interactions can be tricky due to the fact that <span class="math inline">\(\beta2\)</span> (coefficient of black) just shows the partial effect of being black when his education = 0. While using the equation black*(educ-c) we centering the variables around the mean value of education.</p>
+<p>The value we suggest is equal to the mean of education (<span class="math inline">\(13.5\)</span>). Interpreting models with interactions can be tricky due to the fact that <span class="math inline">\(\beta_2\)</span> (coefficient of black) just shows the partial effect of being black when his education = 0. While using the equation <code>black*(educ-c)</code> we are centering the variables around the mean value of education.</p>
 </div>
 <div id="d-model-interpretation" class="section level4">
 <h4>2(d) Model interpretation</h4>
@@ -1197,8 +1195,8 @@ summary(mod2d)</code></pre>
 ## Residual standard error: 0.3656 on 926 degrees of freedom
 ## Multiple R-squared:  0.2528, Adjusted R-squared:  0.2464 
 ## F-statistic: 39.17 on 8 and 926 DF,  p-value: &lt; 2.2e-16</code></pre>
-<p>Being not married and not black is our base model, which is illustrated by the intercept. The second group (not_married &amp; black) is represented by the coefficient <span class="math inline">\(\beta2 = -0.240820\)</span> The coefficient <span class="math inline">\(\beta3 = 0.188915\)</span> presents the third group: being married and not being black. Being married and black is represented by <span class="math inline">\(\beta2 + \beta3 + \beta8\)</span>.</p>
-<p>Therefore, the difference between the second and the forth group are <span class="math inline">\(\beta2 + \beta8 = -0.24 + 0.06 = -0.18\)</span>.</p>
+<p>Being not married and not black is our base model, which is illustrated by the intercept. The second group (not_married &amp; black) is represented by the coefficient <span class="math inline">\(\beta_2 = -0.240820\)</span> The coefficient <span class="math inline">\(\beta_3 = 0.188915\)</span> presents the third group: being married and not being black. Being married and black is represented by <span class="math inline">\(\beta_2 + \beta_3 + \beta_8\)</span>.</p>
+<p>Therefore, the difference between the second and the fourth group is <span class="math inline">\(\beta_2 + \beta_8 = -0.24 + 0.06 = -0.18\)</span>.</p>
 </div>
 </div>
 <div id="task-3" class="section level2">
@@ -1211,7 +1209,7 @@ summary(mod2d)</code></pre>
 ## 4     0 98.880    1    1  44     2  21.800     0    0 9777.2539  1936
 ## 5     0 22.614    0    0  53     1  18.450     0    0  511.3930  2809
 ## 6     0 15.000    1    0  60     3   0.000     0    0  225.0000  3600</code></pre>
-<p>Just looking at the data “ksubs” reveals that our response variable e401k is a binary categorical variable. While fitting a linear regression model, it will lead to probabilities which are less than 0 or greater than 1. A logistic regression model fits better for this exercise.</p>
+<p>Just looking at the data “ksubs” reveals that our response variable <span class="math inline">\(e401k\)</span> is a binary categorical variable. While fitting a linear regression model, it will lead to probabilities which are less than 0 or greater than 1. A logistic regression model fits better for this exercise.</p>
 <div id="i-model-statistics" class="section level4">
 <h4>3(i) Model statistics</h4>
 <pre class="r"><code>(x &lt;- table(ksubs$e401k))</code></pre>
@@ -1255,12 +1253,9 @@ summary(mod3ii)</code></pre>
 </div>
 <div id="iii-interpretation-of-coefficients" class="section level4">
 <h4>3(iii) Interpretation of coefficients</h4>
-<p>The estimates in the summary output for each predictor are the effects on the response e401k if one predictor x is increased by one unit while holding the other predictors fixed (linear model).</p>
-<p><span class="math inline">\(\frac{\delta e401k}{\delta inc}=\beta_1+\beta_2inc = 0.01245 -0.00006165 * inc\)</span><br />
-The effect of one unit increase in income depends on income itself. Saying we have an income about 30,000 we gain an effect of <span class="math inline">\(-1.83705 = -183\%\)</span>.  </p>
-<p><span class="math inline">\(\frac{\delta e401k}{\delta age}=\beta_3+\beta_4age = 0.02651 -0.0003053 * age\)</span><br />
-The effect for age is similar to variable income as the derivation also depends on the value itself. Saying we look at the age of 40 (median of age), the effect is <span class="math inline">\(0.014298 = 1.4\%\)</span>.  </p>
-<p><span class="math inline">\(\frac{\delta e401k}{\delta male}=\beta_5 = -0.003533\)</span> Our base model is being a woman. So being a male will increase the probability of eligibility for participating by <span class="math inline">\(-0.3533\%\)</span>.</p>
+<p>The estimates in the summary output for each predictor are the effects on the response e401k if one predictor x is increased by one unit while holding the other predictors fixed (linear model). <br> <span class="math inline">\(\frac{\delta e401k}{\delta inc}=\beta_1+\beta_2inc = 0.01245 -0.00006165 * inc\)</span><br />
+The effect of one unit increase in income depends on income itself. Saying we have an income about 30,000 we gain an effect of <span class="math inline">\(-1.83705 = -183\%\)</span>. <br> <span class="math inline">\(\frac{\delta e401k}{\delta age}=\beta_3+\beta_4age = 0.02651 -0.0003053 * age\)</span><br />
+The effect for age is similar to variable income as the derivation also depends on the value itself. Saying we look at the age of 40 (median of age), the effect is <span class="math inline">\(0.014298 = 1.4\%\)</span>. <br> <span class="math inline">\(\frac{\delta e401k}{\delta male}=\beta_5 = -0.003533\)</span> Our base model is being a woman. So being a male will increase the probability of eligibility for participating by <span class="math inline">\(-0.3533\%\)</span>.</p>
 </div>
 <div id="iv-independence-of-e401k" class="section level4">
 <h4>3(iv) Independence of e401k</h4>
@@ -1287,14 +1282,9 @@ The effect for age is similar to variable income as the derivation also depends 
 ## Residual standard error: 0.4648 on 9269 degrees of freedom
 ## Multiple R-squared:  0.09428,    Adjusted R-squared:  0.09379 
 ## F-statistic:   193 on 5 and 9269 DF,  p-value: &lt; 2.2e-16</code></pre>
-<p>As shown in the output (mod3ii) we can assume that e401k is independent from gender. We test if <span class="math inline">\(H_0: \beta_5 = 0\)</span> in a two-sided test using <span class="math inline">\(\alpha = 0.05\)</span>. As the p-value of 0.77 is bigger than 0.05 we cannot reject <span class="math inline">\(H_0\)</span>. So, the probability of participating is independent of being male or female.</p>
+<p>As shown in the output (mod3ii) we can assume that e401k is independent from gender. We test if <span class="math inline">\(H_0: \beta_5 = 0\)</span> in a two-sided test using <span class="math inline">\(\alpha = 0.05\)</span>. As the p-value of <span class="math inline">\(0.77\)</span> is bigger than <span class="math inline">\(0.05\)</span> we cannot reject <span class="math inline">\(H_0\)</span>. So, the probability of participating is independent of being male or female.</p>
 <p>Furthermore, the variable income and age are signficant for the model. Therefore, e401k is dependent on these both variables. We could also test these both hypotheses, which are based on the output of model 3ii:</p>
-<p>Income: <span class="math inline">\(H_0: \beta_1 = 0, \beta_2 = 0\)</span> (two sided test, <span class="math inline">\(\alpha = 0.05\)</span>) We reject <span class="math inline">\(H_0\)</span> as both p_values &lt; 0.05.</p>
-<p>Age: <span class="math inline">\(H_0: \beta_3 = 0, \beta_4 = 0\)</span> (two sided test, <span class="math inline">\(\alpha = 0.05\)</span>) We reject <span class="math inline">\(H_0\)</span> as both p_values &lt; 0.05.</p>
-</div>
-<div id="v-fitted-values" class="section level4">
-<h4>3(v) Fitted Values</h4>
-<p>Because we are working with a categorical y variable and apply a linear model we are expecting to see values outside of the range 0 to 1.</p>
+<p>Income: <span class="math inline">\(H_0: \beta_1 = 0, \beta_2 = 0\)</span> (two sided test, <span class="math inline">\(\alpha = 0.05\)</span>) We reject <span class="math inline">\(H_0\)</span> as both p_values <span class="math inline">\(&lt; 0.05.\)</span> <br> Age: <span class="math inline">\(H_0: \beta_3 = 0, \beta_4 = 0\)</span> (two sided test, <span class="math inline">\(\alpha = 0.05\)</span>) We reject <span class="math inline">\(H_0\)</span> as both p_values <span class="math inline">\(&lt; 0.05\)</span>. <br> ####3(v) Fitted Values Because we are working with a categorical <span class="math inline">\(y\)</span> variable and apply a linear model we are expecting to see values outside of the range 0 to 1.</p>
 <pre class="r"><code>inc = 0; age = 10; male = 0
 inc2 = 250000; age2 = 65; male2 = 1
 
@@ -1375,7 +1365,7 @@ $(document).ready(function () {
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
 </script>

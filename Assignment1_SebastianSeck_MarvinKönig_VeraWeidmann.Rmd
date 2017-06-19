@@ -1,6 +1,6 @@
 ---
 title: "Econometrics BSEL ST 2017 Assignment 1"
-author: "Vera Weidmann, Marvin König, Sebastian Seck"
+author: "Vera Weidmann, Marvin Koenig, Sebastian Seck"
 date: "submission to Prof. Qari"
 output:
   html_document:
@@ -32,24 +32,24 @@ head(hprice)
 names(hprice)
 summary(hprice[,c("price","bdrms","lotsize")])
 ```
-The sample mean of price is 293.5. The summary statistics can be found above.
+The sample mean of price is $293.5$. The summary statistics are found above.
 
 #### 1(b) Model estimation & interpretation
 ```{r 1b}
 mod1b <- lm(lprice ~ bdrms + llotsize, data=hprice)
 summary(mod1b)
 ```
-The summary provides us with an R-Squared of 40.13% - this means that 40% of deviation in (log-) price can be explained by the predictors chosen. We are also provided with an adjusted R-squared, which is adjusted not to consider the count of variables used for the model.
-n can be derived from the degrees of freedom: $DF = n-k-1 \Leftrightarrow 85 = 88-2-1$ From this formula we can easily deduct the number of observations n, which is 88.
+The summary provides us with an R-Squared of $40.13\%$ - this means that $40%$ of deviation in $(log-) price$ can be explained by the predictors chosen. We are also provided with an adjusted R-squared, which is adjusted not to consider the count of variables used for the model.
+$n$ can be derived from the degrees of freedom: $DF = n-k-1 \Leftrightarrow 85 = 88-2-1$ From this formula we can easily deduct the number of observations $n$, which is $88$.
 
-If we consider that bdrms and lotsize is equal to 0, the price is the value of the intercept: 2.95. The model is a log-level-model. This means, an increase of one predictor by holding the others fixed leads to a percentage increase of the response variable (log-price).
-So, if bdrms is increasing by one extra room while the other predictor lotsize is held fixed, the price increases by 14%. For one increase in log(lotsize) the price rise by 24.4%.
+If we consider that $bdrms$ and $lotsize$ is equal to $0$, the price is the value of the intercept: $2.95$. The model is a log-level-model. This means, an increase of one predictor by holding the others fixed leads to a percentage increase of the response variable ($log-price$).
+So, if $bdrms$ is increasing by one extra room while the other predictor $lotsize$ is held fixed, the price increases by $14\%$. For a one-increase in $log(lotsize)$ the price rises by $24.4\%$.
 
 $\frac{\delta log(price)}{\delta bdrms}=\beta_1$
 $\frac{\delta log(price)}{\delta log(lotsize)}=\beta_2$
 
-Furthermore, both coefficients are significant. The p-vales of both coefficients are one indicator for the significance. As they are lower than $\alpha = 5%$ (and $\alpha = 1%$), we can reject that both predictors has no effect on the response price (H0: $\beta_1 = 0, \beta_2  =0$) in a two-sided test.
-Likewise we could look at the t-values for significance. In R the significance codes give also a clarification about the coef. significance.
+Furthermore, both coefficients are significant. The p-values of both coefficients are one indicator for the significance. As they are lower than $\alpha = 5%$ (and $\alpha = 1%$), we can reject that both predictors have no effect on the response price ($H_0: \space \beta_1 = 0, \beta_2  =0$) in a two-sided test.
+Likewise, we could look at the t-values for significance. In R the significance codes also give clarification over the coefficients' significance.
 
 #### 1(c) - i Model estimation & interpretation
 ```{r 1ci}
@@ -62,24 +62,22 @@ summary(mod1c)
 ```{r 1cii, results="asis"}
 stargazer(mod1b,mod1c, title = "Comparison of models mod1b and mod1c", type="html", model.names = FALSE,column.labels = c("mod1b", "mod1c"), column.separate = c(1,1), style = "qje")
 ```
-
-The first derivative of $log(price)=\beta_0+\beta_1bdrms+\beta_2log(lotsize)+\beta_3[log(lotsize)]^2+u$:  
-
+<br>
+The first derivative of   $log(price)=\beta_0+\beta_1bdrms+\beta_2log(lotsize)+\beta_3[log(lotsize)]^2+u$:  
 $\frac{\delta log(price)}{\delta log(lotsize)}=\beta_2+2\beta_3log(lotsize)$
-
-In model "mod1c" we add the squared value of llotsize. As it is shown in the derivation above, the effect from lotsize by one unit depends on how many units of lotsize is already there.
+<br>
+In model "mod1c" we add the squared value of $llotsize$. As it is shown in the derivation above, the effect from $lotsize$ by one unit depends on how many units of $lotsize$ are already there.
 
 #### 1(d) Error variance estimator
 The unbiased estimator usually implemented is $\frac{SSR}{n-k-1}$.
 Generally, unbiasedness means that there is an average trend within repeated samples. Unbiasedness in this case means that the restrictions given by the OLS first order conditions are respected - which means an adjustment to the degrees of freedom.
-
 
 The two suggested variance estimates for mod1c are: 
 ```{r 1d}
 (sum(mod1c$residuals^2)/(nrow(hprice)-1))
 (sum(mod1c$residuals^2)/(nrow(hprice)-4))
 ```
-There are no large differences because the bias of the first variance estimate is diminished by a rather large n.
+There are no large differences because the bias of the first variance estimate is diminished by a rather large $n$.
 
 In order to compare this value with our model output, we take the square root of the calculated error variance to compare it with the Residual Standard Error output in our model - which is printed out for you in the following:
 ```{r 1d-2}
@@ -89,12 +87,12 @@ sqrt(sum(mod1c$residuals^2)/(nrow(hprice)-4))
 
 
 #### 1(e) Standard error
-At first we look at the variance of the error term of model 2, for which we square the Root MSE. In order to calculate the standard error of llotsize and bdrms we are using the SST and R-squared from the respective model outputs, where the variables are the dependent variable. We take the square root in order to arrive at the standard error instead of the variance.
+At first we look at the variance of the error term of model 2, for which we square the Root MSE. In order to calculate the standard error of $llotsize$ and $bdrms$ we are using the SST and R-squared from the respective model outputs, where the variables are the dependent variable. We take the square root in order to arrive at the standard error instead of the variance.
 
-In detail, this is how $SE_{\beta_2}$ (llotsize) is calculated:  
+In detail, this is how $SE_{\beta_2}$ ($llotsize$) is calculated:  
 $SE_{\beta_2}=\sqrt{\frac{\sigma^2}{SST_2(1-R^2_2)}} = \sqrt{\frac{0.23^2}{25.75*(1-0.9939)}}=0.604$
-
-In detail, this is how $SE_{\beta_1}$ (bdrms) is calculated:  
+<br>
+In detail, this is how $SE_{\beta_1}$ ($bdrms$) is calculated:  
 $SE_{\beta_1}=\sqrt{\frac{\sigma^2}{SST_1(1-R^2_1)}} = \sqrt{\frac{0.23^2}{61.59*(1-0.0289)}}=0.0308$
 
 ##Task 2
@@ -116,7 +114,7 @@ CI1= x - SE * 1.64
 CI2 = x + SE * 1.64
 (salary_black <-cbind(CI1, CI2))
 ```
-The salary difference can be found from the coefficient $\beta_5$ in model mod2a, it is -0.1884. As the CI is not included in R's standard model output, we calculated it manually.
+The salary difference can be found from the coefficient $\beta_5$ in model mod2a, it is $-0.1884$. As the CI is not included in R's standard model output, we calculated it manually.
 
 ####2(b) Model selection
 ```{r 2b}
@@ -137,11 +135,11 @@ SSRur
 
 Our null hypothesis is that both additional variables have no explanatory power. So, model 2a (the smaller one) would be better than model 2b. 
 
-$H_0: \beta_8=0; \beta_9=0$
+$H_0: \beta_8=0; \beta_9=0$  
 $H_1: \beta_8>0; \beta_9>0$
-
+<br>
 Decision Rule:
-Reject H0 if $F > 1.89$ ($\alpha = 0.05$, one sided test) 
+Reject $H_0$ if $F > 1.89$ ($\alpha = 0.05$, one sided test) 
 
 In R we also can calculate the critical value instead of using the table of the F-distributions:
 ```{r}
@@ -165,9 +163,9 @@ k= 9
 Substituted with our values:
 $F = \frac{(123.8185 - 123.421) / 2}{123.421 / (935 - 9 - 1)} = 1.489806$
 
-We cannot reject our H0, because $F < 1.89$ and lies inside the 95% Interval. This means $\beta_8$ and $\beta_9$ do not provide additional explanation power.
+We cannot reject our $H_0$, because $F < 1.89$ and lies inside the $95\%$ Interval. This means $\beta_8$ and $\beta_9$ do not provide additional explanation power.
 
-Furthermore, we can calculate the Anova of these both models. The result underlines the previous explanation of the non-rejection of $H_0$.
+Furthermore, we can calculate the Anova of both these models. The result underlines the previous explanation of the non-rejection of $H_0$.
 
 ```{r}
 anova(mod2a,mod2b)
@@ -179,25 +177,25 @@ mod2c <- lm(lwage ~ educ*black + exper + tenure + married + south + urban, data 
 summary(mod2c)
 ```
 
-Our null hypothesis is that the interaction term between education and black has no effect on the model response. 
+Our null hypothesis is that the interaction term between $education$ and $black$ has no effect on the model response. 
 
 $H0: \beta_8 =0$  
 $H1: \beta_8 \neq 0$
 
-Decision Rule: Reject H0 if |t| > 1.64   ($\alpha = 0.1$, two sided test)
+Decision Rule: Reject $H_0$ if $|t| > 1.6$   ($\alpha = 0.1$, two sided test)
 
-As t(educ:black) is |-1.121| < 1.64 (as well as: $p-value \space of \space 26\% > 10\%$), we cannot reject H0. The interaction term between education and black might not have an effect on the model. So, education might not depend on race.
+As `t(educ:black)` is $|-1.121| < 1.64$ (as well as: $p-value \space of \space 26\% > 10\%$), we cannot reject $H_0$. The interaction term between education and black might not have an effect on the model. Thus, education might not depend on race.
 
 #### 2(c) - i Coefficient interpretation
 ```{r 2ci, results="asis"}
 stargazer(mod2a,mod2c, title = "Comparison of models mod2a and mod2c", type="html", model.names = FALSE,column.labels = c("mod2a", "mod2c"), column.separate = c(1,1), style = "qje")
 ```
 
-In model 2c we can see that the black coefficient is positive now. But this variable interacts with education. This means being black causes an effect of $+0.09-0.023*educ$. So the wage of a black person depends in this case of his education. Model 2a do not integrate the interaction term. Therefore, being black decrease the persons wage by 19%.
+In model 2c we can see that the black coefficient is positive now. However, this variable interacts with education. This means being black causes an effect of $+0.09-0.023*educ$. So the wage of a black person depends in this case of his education. Model 2a does not integrate the interaction term. Therefore, being black decreases the persons wage by $19\%$.
 
-$\frac{\delta log(wage)}{\delta black}=\beta_2+\beta_1educ$
+$\frac{\delta log(wage)}{\delta black}=\beta_2+\beta_1educ$  
 
-However, the standard error for black in model 2c is quite big and we can't verify significance for this coefficient anymore. As already seen in the hypothesis test above ($H0: \beta8 = 0$), education also does not depend on the variable black and the model 2a might be the one which reflects the population in a better way.
+However, the standard error for black in model 2c is quite large and we can't verify significance for this coefficient anymore. As already seen in the hypothesis test above ($H_0: \beta8 = 0$), education also does not depend on the variable black and the model 2a might be the one which reflects the population in a better way.
 
 #### 2(c) - ii Model modification
 ```{r 2cii}
@@ -208,7 +206,7 @@ mod2cii <- lm(lwage ~ educ_c*black + exper + tenure + married + south + urban, d
 summary(mod2cii)
 ```
 
-The value we suggest is equal to the mean of education (13.5). Interpreting models with interactions can be tricky due to the fact that $\beta2$ (coefficient of black) just shows the partial effect of being black when his education = 0. While using the equation black*(educ-c) we centering the variables around the mean value of education. 
+The value we suggest is equal to the mean of education ($13.5$). Interpreting models with interactions can be tricky due to the fact that $\beta_2$ (coefficient of black) just shows the partial effect of being black when his education = 0. While using the equation `black*(educ-c)` we are centering the variables around the mean value of education. 
 
 #### 2(d) Model interpretation
 ```{r 2d}
@@ -217,18 +215,18 @@ summary(mod2d)
 ```
 
 Being not married and not black is our base model, which is illustrated by the intercept. 
-The second group (not_married & black) is represented by the coefficient $\beta2 = -0.240820$
-The coefficient $\beta3 = 0.188915$ presents the third group: being married and not being black. 
-Being married and black is represented by $\beta2 + \beta3 + \beta8$. 
+The second group (not_married & black) is represented by the coefficient $\beta_2 = -0.240820$
+The coefficient $\beta_3 = 0.188915$ presents the third group: being married and not being black. 
+Being married and black is represented by $\beta_2 + \beta_3 + \beta_8$. 
 
-Therefore, the difference between the second and the forth group are  $\beta2 + \beta8 = -0.24 + 0.06 = -0.18$.
+Therefore, the difference between the second and the fourth group is  $\beta_2 + \beta_8 = -0.24 + 0.06 = -0.18$.
 
 ##Task 3
 ```{r}
 head(ksubs)
 ```
 
-Just looking at the data "ksubs" reveals that our response variable e401k is a binary categorical variable. While fitting a linear regression model, it will lead to probabilities which are less than 0 or greater than 1. A logistic regression model fits better for this exercise.
+Just looking at the data "ksubs" reveals that our response variable $e401k$ is a binary categorical variable. While fitting a linear regression model, it will lead to probabilities which are less than 0 or greater than 1. A logistic regression model fits better for this exercise.
 
 
 ####3(i) Model statistics
@@ -250,15 +248,13 @@ summary(mod3ii)
 
 ####3(iii) Interpretation of coefficients
 The estimates in the summary output for each predictor are the effects on the response e401k if one predictor x is increased by one unit while holding the other predictors fixed (linear model).
-
+<br>
 $\frac{\delta e401k}{\delta inc}=\beta_1+\beta_2inc = 0.01245 -0.00006165 * inc$  
 The effect of one unit increase in income depends on income itself. Saying we have an income about 30,000 we gain an effect of $-1.83705 = -183\%$.
-&nbsp;
-  
+<br>
 $\frac{\delta e401k}{\delta age}=\beta_3+\beta_4age = 0.02651 -0.0003053 * age$  
 The effect for age is similar to variable income as the derivation also depends on the value itself. Saying we look at the age of 40 (median of age), the effect is $0.014298 = 1.4\%$. 
-&nbsp;
-  
+<br>
 $\frac{\delta e401k}{\delta male}=\beta_5 = -0.003533$
 Our base model is being a woman. So being a male will increase the probability of eligibility for participating by $-0.3533\%$.
 
@@ -267,20 +263,20 @@ Our base model is being a woman. So being a male will increase the probability o
 ```{r 3iv}
 summary(mod3ii)
 ```
-As shown in the output (mod3ii) we can assume that e401k is independent from gender. We test if $H_0: \beta_5 = 0$ in a two-sided test using $\alpha = 0.05$. As the p-value of 0.77 is bigger than 0.05 we cannot reject $H_0$. So, the probability of participating is independent of being male or female. 
+As shown in the output (mod3ii) we can assume that e401k is independent from gender. We test if $H_0: \beta_5 = 0$ in a two-sided test using $\alpha = 0.05$. As the p-value of $0.77$ is bigger than $0.05$ we cannot reject $H_0$. So, the probability of participating is independent of being male or female. 
 
 Furthermore, the variable income and age are signficant for the model. Therefore, e401k is dependent on these both variables. We could also test these both hypotheses, which are based on the output of model 3ii:
 
 Income:
 $H_0: \beta_1 = 0, \beta_2 = 0$ (two sided test, $\alpha = 0.05$)
-We reject $H_0$ as both p_values < 0.05. 
-
+We reject $H_0$ as both p_values $< 0.05.$
+<br>
 Age:
 $H_0: \beta_3 = 0, \beta_4 = 0$ (two sided test, $\alpha = 0.05$)
-We reject $H_0$ as both p_values < 0.05.
-
+We reject $H_0$ as both p_values $< 0.05$.
+<br>
 ####3(v) Fitted Values
-Because we are working with a categorical y variable and apply a linear model we are expecting to see values outside of the range 0 to 1.
+Because we are working with a categorical $y$ variable and apply a linear model we are expecting to see values outside of the range 0 to 1.
 
 ```{r}
 inc = 0; age = 10; male = 0
