@@ -1284,7 +1284,11 @@ The effect for age is similar to variable income as the derivation also depends 
 ## F-statistic:   193 on 5 and 9269 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>As shown in the output (mod3ii) we can assume that e401k is independent from gender. We test if <span class="math inline">\(H_0: \beta_5 = 0\)</span> in a two-sided test using <span class="math inline">\(\alpha = 0.05\)</span>. As the p-value of <span class="math inline">\(0.77\)</span> is bigger than <span class="math inline">\(0.05\)</span> we cannot reject <span class="math inline">\(H_0\)</span>. So, the probability of participating is independent of being male or female.</p>
 <p>Furthermore, the variable income and age are signficant for the model. Therefore, e401k is dependent on these both variables. We could also test these both hypotheses, which are based on the output of model 3ii:</p>
-<p>Income: <span class="math inline">\(H_0: \beta_1 = 0, \beta_2 = 0\)</span> (two sided test, <span class="math inline">\(\alpha = 0.05\)</span>) We reject <span class="math inline">\(H_0\)</span> as both p_values <span class="math inline">\(&lt; 0.05.\)</span> <br> Age: <span class="math inline">\(H_0: \beta_3 = 0, \beta_4 = 0\)</span> (two sided test, <span class="math inline">\(\alpha = 0.05\)</span>) We reject <span class="math inline">\(H_0\)</span> as both p_values <span class="math inline">\(&lt; 0.05\)</span>. <br> ####3(v) Fitted Values Because we are working with a categorical <span class="math inline">\(y\)</span> variable and apply a linear model we are expecting to see values outside of the range 0 to 1.</p>
+<p>Income: <span class="math inline">\(H_0: \beta_1 = 0, \beta_2 = 0\)</span> (two sided test, <span class="math inline">\(\alpha = 0.05\)</span>) We reject <span class="math inline">\(H_0\)</span> as both p_values <span class="math inline">\(&lt; 0.05.\)</span> <br> Age: <span class="math inline">\(H_0: \beta_3 = 0, \beta_4 = 0\)</span> (two sided test, <span class="math inline">\(\alpha = 0.05\)</span>) We reject <span class="math inline">\(H_0\)</span> as both p_values <span class="math inline">\(&lt; 0.05\)</span>. <br></p>
+</div>
+<div id="v-fitted-values" class="section level4">
+<h4>3(v) Fitted Values</h4>
+<p>Because we are working with a categorical <span class="math inline">\(y\)</span> variable and apply a linear model we are expecting to see values outside of the range 0 to 1.</p>
 <pre class="r"><code>inc = 0; age = 10; male = 0
 inc2 = 250000; age2 = 65; male2 = 1
 
@@ -1365,7 +1369,7 @@ $(document).ready(function () {
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
 </script>

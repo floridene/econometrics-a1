@@ -275,6 +275,7 @@ Age:
 $H_0: \beta_3 = 0, \beta_4 = 0$ (two sided test, $\alpha = 0.05$)
 We reject $H_0$ as both p_values $< 0.05$.
 <br>
+
 ####3(v) Fitted Values
 Because we are working with a categorical $y$ variable and apply a linear model we are expecting to see values outside of the range 0 to 1.
 
