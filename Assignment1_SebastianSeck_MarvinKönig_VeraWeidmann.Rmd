@@ -250,7 +250,7 @@ summary(mod3ii)
 The estimates in the summary output for each predictor are the effects on the response e401k if one predictor x is increased by one unit while holding the other predictors fixed (linear model).
 <br>
 $\frac{\delta e401k}{\delta inc}=\beta_1+\beta_2inc = 0.01245 -0.00006165 * inc$  
-The effect of one unit increase in income depends on income itself. Saying we have an income about 30,000 we gain an effect of $-1.83705 = -183\%$.
+The effect of one unit increase in income depends on income itself. Saying we have an income about 30,000 (*30) we gain an effect of $ 0.0106005 = 1.6\%$.
 <br>
 $\frac{\delta e401k}{\delta age}=\beta_3+\beta_4age = 0.02651 -0.0003053 * age$  
 The effect for age is similar to variable income as the derivation also depends on the value itself. Saying we look at the age of 40 (median of age), the effect is $0.014298 = 1.4\%$. 
